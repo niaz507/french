@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Français — réseau d'étude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFEDE7;
+    --card:#FBFAF8;
+    --ink:#16233A;
+    --ink-soft:#5A6478;
+    --ink-faint:#8E96A6;
+    --rule:rgba(22,35,58,.14);
+    --line:#16233A;           /* set per section */
+    --display:"Bricolage Grotesque","Helvetica Neue",sans-serif;
+    --body:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--body);font-size:16px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  button{font:inherit;color:inherit;cursor:pointer}
+  :focus-visible{outline:2.5px solid var(--line);outline-offset:3px;border-radius:3px}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:34px 20px 24px;max-width:1180px;margin:0 auto}
+  .plaque{
+    display:inline-block;background:var(--ink);color:#fff;
+    border-radius:7px;padding:16px 26px 18px;
+    box-shadow:0 2px 0 rgba(22,35,58,.25);
+  }
+  .plaque .kicker{
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;
+    opacity:.72;display:block;margin-bottom:4px;
+  }
+  .plaque h1{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(2.1rem,7vw,3.4rem);line-height:.92;margin:0;letter-spacing:-.02em;
+  }
+  .lede{
+    max-width:50ch;margin:18px 0 0;color:var(--ink-soft);font-size:.95rem;line-height:1.6;
+  }
+  .stats{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-faint);
+  }
+  .stats b{color:var(--ink);font-weight:500}
+
+  /* ---------- SEARCH ---------- */
+  .searchwrap{position:sticky;top:0;z-index:40;background:var(--paper);
+    border-bottom:1px solid var(--rule);}
+  .searchinner{max-width:1180px;margin:0 auto;padding:12px 20px;
+    display:flex;gap:10px;align-items:center}
+  .search{
+    flex:1;display:flex;align-items:center;gap:10px;
+    background:var(--card);border:1.5px solid var(--rule);border-radius:6px;
+    padding:10px 14px;transition:border-color .15s;
+  }
+  .search:focus-within{border-color:var(--ink)}
+  .search input{
+    flex:1;border:0;background:none;font:inherit;font-size:.95rem;color:var(--ink);outline:none;
+  }
+  .search input::placeholder{color:var(--ink-faint)}
+  .search svg{flex:none;opacity:.45}
+  .clearbtn{border:0;background:none;padding:2px 4px;color:var(--ink-faint);font-size:1.1rem;line-height:1}
+  .clearbtn:hover{color:var(--ink)}
+  .voicechip{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;
+    color:var(--ink-faint);white-space:nowrap;
+  }
+  .voicechip.bad{color:#B3452F}
+
+  /* ---------- LAYOUT ---------- */
+  .shell{max-width:1180px;margin:0 auto;padding:0 20px 80px;
+    display:grid;grid-template-columns:236px 1fr;gap:38px;align-items:start}
+
+  /* ---------- RAIL NAV (signature) ---------- */
+  .rail{position:sticky;top:74px;padding:26px 0 0}
+  .raillabel{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:14px;padding-left:26px;
+  }
+  .railline{position:relative;padding-left:26px}
+  .railline::before{
+    content:"";position:absolute;left:7px;top:9px;bottom:9px;width:3px;
+    background:var(--rule);border-radius:2px;
+  }
+  .stop{
+    position:relative;display:block;width:100%;text-align:left;
+    background:none;border:0;padding:9px 6px 9px 0;
+    font-size:.9rem;font-weight:500;color:var(--ink-soft);
+    transition:color .15s;
+  }
+  .stop::before{
+    content:"";position:absolute;left:-26px;top:50%;transform:translateY(-50%);
+    width:17px;height:17px;border-radius:50%;
+    background:var(--paper);border:3px solid var(--rule);
+    transition:border-color .18s,box-shadow .18s;
+  }
+  .stop:hover{color:var(--ink)}
+  .stop:hover::before{border-color:var(--stopcolor)}
+  .stop.on{color:var(--ink);font-weight:600}
+  .stop.on::before{border-color:var(--stopcolor);box-shadow:0 0 0 4px color-mix(in srgb,var(--stopcolor) 22%,transparent)}
+  .stop .count{
+    font-family:var(--mono);font-size:.66rem;color:var(--ink-faint);margin-left:7px;font-weight:400;
+  }
+
+  /* mobile line selector */
+  .mobilerail{display:none}
+
+  /* ---------- CONTENT ---------- */
+  .content{padding-top:26px;min-width:0}
+  .sechead{margin-bottom:26px;padding-bottom:18px;border-bottom:2px solid var(--line)}
+  .sectag{
+    display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.22em;
+    text-transform:uppercase;color:#fff;background:var(--line);
+    padding:4px 10px;border-radius:3px;margin-bottom:12px;
+  }
+  .sechead h2{
+    font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.4vw,2.5rem);
+    line-height:1.02;margin:0 0 8px;letter-spacing:-.02em;
+  }
+  .sechead p{margin:0;color:var(--ink-soft);font-size:.92rem;max-width:58ch;line-height:1.6}
+
+  .group{margin-bottom:34px;scroll-margin-top:80px}
+  .grouphead{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--rule);flex-wrap:wrap;
+  }
+  .grouphead h3{
+    font-family:var(--display);font-weight:600;font-size:1.02rem;margin:0;letter-spacing:-.01em;
+  }
+  .playall{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+    background:none;border:1.5px solid var(--rule);border-radius:99px;padding:4px 12px;
+    color:var(--ink-soft);white-space:nowrap;transition:all .15s;
+  }
+  .playall:hover{border-color:var(--line);color:var(--ink)}
+  .playall.on{background:var(--line);border-color:var(--line);color:#fff}
+
+  .note{
+    background:color-mix(in srgb,var(--line) 8%,var(--card));
+    border-left:3px solid var(--line);border-radius:0 6px 6px 0;
+    padding:12px 15px;margin:0 0 14px;font-size:.86rem;line-height:1.65;color:var(--ink-soft);
+  }
+  .note strong{color:var(--ink);font-weight:600}
+  .note code{font-family:var(--mono);font-size:.94em;background:rgba(22,35,58,.07);padding:1px 5px;border-radius:3px}
+
+  .items{display:grid;gap:7px}
+  .items.two{grid-template-columns:repeat(auto-fill,minmax(258px,1fr))}
+  .items.three{grid-template-columns:repeat(auto-fill,minmax(176px,1fr))}
+
+  .item{
+    display:block;width:100%;text-align:left;
+    background:var(--card);border:1px solid var(--rule);border-radius:6px;
+    padding:10px 13px;position:relative;
+    transition:border-color .15s,transform .15s,box-shadow .15s;
+  }
+  .item:hover{border-color:color-mix(in srgb,var(--line) 55%,var(--rule));transform:translateY(-1px)}
+  .item.speaking{
+    border-color:var(--line);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--line) 18%,transparent);
+  }
+  .item .en{
+    font-size:.74rem;color:var(--ink-faint);line-height:1.35;display:block;margin-bottom:2px;
+  }
+  .item .fr{
+    font-size:1rem;font-weight:600;line-height:1.35;display:block;letter-spacing:-.005em;
+  }
+  .item .ph{
+    font-family:var(--mono);font-size:.75rem;color:var(--line);
+    line-height:1.4;display:block;margin-top:2px;
+    filter:saturate(.85) brightness(.72);
+  }
+  .item mark{background:color-mix(in srgb,var(--line) 30%,transparent);color:inherit;border-radius:2px;padding:0 1px}
+
+  /* results view */
+  .resultmeta{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:18px;
+  }
+  .rgroup{margin-bottom:26px}
+  .rgroup .path{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+    color:#fff;background:var(--line);display:inline-block;padding:3px 9px;border-radius:3px;margin-bottom:9px;
+  }
+  .empty{padding:40px 0;color:var(--ink-soft);font-size:.95rem;max-width:46ch;line-height:1.6}
+  .empty b{display:block;font-family:var(--display);font-size:1.2rem;color:var(--ink);margin-bottom:6px}
+
+  footer{
+    max-width:1180px;margin:0 auto;padding:26px 20px 50px;border-top:1px solid var(--rule);
+    font-size:.8rem;color:var(--ink-faint);line-height:1.6;
+  }
+
+  @media (max-width:860px){
+    .shell{grid-template-columns:1fr;gap:0;padding-bottom:60px}
+    .rail{display:none}
+    .mobilerail{
+      display:flex;gap:7px;overflow-x:auto;padding:12px 20px;
+      position:sticky;top:57px;z-index:35;background:var(--paper);
+      border-bottom:1px solid var(--rule);-webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .mobilerail::-webkit-scrollbar{display:none}
+    .mchip{
+      flex:none;background:var(--card);border:1.5px solid var(--rule);border-radius:99px;
+      padding:7px 14px;font-size:.82rem;font-weight:500;color:var(--ink-soft);white-space:nowrap;
+      display:flex;align-items:center;gap:7px;
+    }
+    .mchip .dot{width:9px;height:9px;border-radius:50%;background:var(--stopcolor);flex:none}
+    .mchip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+    .content{padding-top:20px}
+    .items.two,.items.three{grid-template-columns:1fr}
+    .hero{padding:26px 20px 18px}
+  }
+  @media (max-width:420px){
+    .items.three{grid-template-columns:repeat(2,1fr)}
+    .items.three .item{padding:9px 10px}
+    .items.three .fr{font-size:.94rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="plaque">
+    <span class="kicker">Réseau d'étude</span>
+    <h1>Français</h1>
+  </div>
+  <p class="lede">Everything from the course in one place — Alter Ego A1, Grammaire Progressive, Vocabulaire Progressif, plus the alphabet, numbers and pronunciation rules. Tap any line to hear it spoken.</p>
+  <div class="stats">
+    <span><b id="statLines">6</b> sections</span>
+    <span><b id="statGroups">0</b> groups</span>
+    <span><b id="statItems">0</b> phrases</span>
+  </div>
+</header>
+
+<div class="searchwrap">
+  <div class="searchinner">
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="7" cy="7" r="5"/><path d="M11 11l4 4" stroke-linecap="round"/>
+      </svg>
+      <input id="q" type="search" placeholder="Search French or English — bonjour, family, 87…" autocomplete="off" spellcheck="false">
+      <button class="clearbtn" id="clear" hidden aria-label="Clear search">×</button>
+    </label>
+    <span class="voicechip" id="voicechip">Checking voice…</span>
+  </div>
+</div>
+
+<nav class="mobilerail" id="mobilerail" aria-label="Sections"></nav>
+
+<div class="shell">
+  <nav class="rail" aria-label="Sections">
+    <div class="raillabel">Les lignes</div>
+    <div class="railline" id="rail"></div>
+  </nav>
+  <main class="content" id="content"></main>
+</div>
+
+<footer>
+  Built from Alter Ego A1 (Dossier 0 &amp; 1), Grammaire Progressive du Français A0–A1 (ch. 1–6), and Vocabulaire Progressif du Français A1 (unités 1–3).
+  Speech uses your device's French voice — if playback sounds English, install a French voice in your system settings.
+</footer>
+
+<script>
+/* ============================================================
+   DATA
+   Each item: [french, phonetic, english?]
+   ============================================================ */
+
+/* ---- numbers, generated ---- */
+const U=["","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix",
+"onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"];
+const UP=["","uhn","duh","twah","KAT-ruh","sank","sees","set","weet","nuhf","dees",
+"onz","dooz","trez","ka-TORZ","kanz","sez","dee-SET","dee-ZWEET","deez-NUHF"];
+/* stressed forms, used when the unit lands at the end of a compound number */
+const UPC=["","UHN","DUH","TWAH","KAT-ruh","SANK","SEES","SET","WEET","NUHF","DEES",
+"ONZ","DOOZ","TREZ","ka-TORZ","KANZ","SEZ","dee-SET","dee-ZWEET","deez-NUHF"];
+/* [word, alone, as prefix] */
+const T={2:["vingt","van","van"],3:["trente","trahnt","trahnt"],4:["quarante","ka-RAHNT","ka-rahnt"],
+5:["cinquante","sank-AHNT","sank-ahnt"],6:["soixante","swa-SAHNT","swa-sahnt"]};
+
+function numName(n){
+  if(n===0) return ["zéro","zay-RO"];
+  if(n<20) return [U[n],UP[n]];
+  if(n===100) return ["cent","sahn"];
+  if(n<70){
+    const t=Math.floor(n/10), r=n%10, [w,solo,pre]=T[t];
+    if(r===0) return [w,solo];
+    /* vingt et un carries a liaison t; the other tens do not */
+    if(r===1) return [w+" et un", t===2 ? "van-tay-UHN" : pre+"-ay-UHN"];
+    return [w+"-"+U[r], pre+"-"+UPC[r]];
+  }
+  if(n<80){
+    const r=n-60;
+    if(r===11) return ["soixante et onze","swa-sahnt-ay-ONZ"];
+    return ["soixante-"+U[r],"swa-sahnt-"+UPC[r]];
+  }
+  if(n===80) return ["quatre-vingts","kat-ruh-VAN"];
+  const r=n-80;
+  return ["quatre-vingt-"+U[r],"kat-ruh-van-"+UPC[r]];
+}
+function range(a,b){
+  const out=[];
+  for(let n=a;n<=b;n++){const [f,p]=numName(n); out.push([f,p,String(n)]);}
+  return out;
+}
+
+const DATA=[
+{
+  id:"sons", name:"Alphabet & sons", tag:"Ligne 1", color:"#E9B000",
+  blurb:"The 26 letter names, the accent marks, and the pronunciation rules that decide how everything else sounds.",
+  groups:[
+    {name:"Les 26 lettres", cols:"three", items:[
+      ["a","ah","A"],["bé","bay","B"],["cé","say","C"],["dé","day","D"],["euh","uh","E"],
+      ["effe","eff","F"],["gé","zhay","G"],["hache","ash","H"],["i","ee","I"],["ji","zhee","J"],
+      ["ka","kah","K"],["elle","ell","L"],["emme","emm","M"],["enne","enn","N"],["o","oh","O"],
+      ["pé","pay","P"],["qu","kew","Q"],["erre","air","R"],["esse","ess","S"],["té","tay","T"],
+      ["u","ew","U"],["vé","vay","V"],["double vé","doo-bluh-vay","W"],["iks","eeks","X"],
+      ["i grec","ee-grek","Y"],["zède","zed","Z"]
+    ]},
+    {name:"A comme Annie — épeler son nom", cols:"two", items:[
+      ["A comme Annie","ah kom a-NEE"],["B comme Béatrice","bay kom bay-a-TREESS"],
+      ["C comme Catherine","say kom kat-REEN"],["D comme Daniel","day kom dan-YELL"],
+      ["E comme Eugénie","uh kom uh-zhay-NEE"],["F comme Fabien","eff kom fab-YAN"],
+      ["G comme Gérard","zhay kom zhay-RAR"],["H comme Hugo","ash kom ew-GO"],
+      ["I comme Igor","ee kom ee-GOR"],["J comme Julie","zhee kom zhew-LEE"],
+      ["K comme Karine","kah kom ka-REEN"],["L comme Laure","ell kom LOR"],
+      ["M comme Monique","emm kom mo-NEEK"],["N comme Noémie","enn kom no-ay-MEE"],
+      ["O comme Ophélie","oh kom o-fay-LEE"],["P comme Paul","pay kom POL"],
+      ["Q comme Quentin","kew kom kahn-TAN"],["R comme Renaud","air kom ruh-NO"],
+      ["S comme Simone","ess kom see-MUN"],["T comme Thibaut","tay kom tee-BO"],
+      ["U comme Ulysse","ew kom ew-LEESS"],["V comme Véronique","vay kom vay-ro-NEEK"],
+      ["W comme William","doo-bluh-vay kom weel-YAM"],["X comme Xavier","eeks kom zav-YAY"],
+      ["Y comme Yves","ee-grek kom eev"],["Z comme Zoé","zed kom zo-AY"]
+    ]},
+    {name:"Les accents", cols:"two", items:[
+      ["é — accent aigu","ay — ak-sahn ay-gew","l'été, summer"],
+      ["è — accent grave","eh — ak-sahn grahv","le père, the father"],
+      ["ê — accent circonflexe","eh — ak-sahn seer-kohn-FLEX","la fête, the party"],
+      ["ë — tréma","eh — tray-MAH","Noël, Christmas"],
+      ["ç — cédille","ss — say-DEE-yuh","le garçon, the boy"],
+      ["œ — e dans l'o","uh — uh dahn LO","le cœur, the heart"]
+    ]},
+    {name:"Voyelles et consonnes", items:[
+      ["20 consonnes et 6 voyelles : a, e, i, o, u, y","van kon-SUN ay see vwa-YELL","20 consonants, 6 vowels — French counts y as a vowel"]
+    ]},
+    {name:"Règles de prononciation", note:
+      "<strong>Final consonants are usually silent.</strong> <code>français</code> is frahn-SAY, <code>mot</code> is MO, <code>petit</code> is puh-TEE. Adding a feminine <code>-e</code> makes that consonant audible: <code>française</code> → frahn-SEZ, <code>petite</code> → puh-TEET. That's how you hear gender.",
+      items:[
+      ["Le r français — de la gorge","luh air frahn-SAY","From the back of the throat, closer to a soft gargle than an English r"],
+      ["Le u — lèvres arrondies","luh ew","Say 'ee', then round your lips into a whistle without moving your tongue"],
+      ["ou — comme 'oo'","oo","bonjour, vous, nous — a plain English 'oo'"],
+      ["Le h est toujours muet","luh ash ay too-ZHOOR mew-AY","H is never pronounced: l'hôtel, l'homme, j'habite"],
+      ["Le e final ne se prononce pas","luh uh fee-NAL nuh suh pro-NONSS pah","je parle = zhuh PARL — the final e adds nothing"],
+      ["ne devient n' devant une voyelle","nuh duh-vee-AN enn duh-VAHN tewn vwa-YELL","il ne est pas → il n'est pas"],
+      ["je devient j' devant une voyelle","zhuh duh-vee-AN zhee","je aime → j'aime · je habite → j'habite"],
+      ["La liaison : vous êtes","lah lee-ay-ZOHN — voo-ZET","The silent s links as a z: voo-ZET, not voo-ETT"],
+      ["Liaison : ils ont / ils sont","eel-ZOHN / eel-SOHN","ils ont has a z sound; ils sont has an s — the difference between 'they have' and 'they are'"],
+      ["-ez se prononce 'ay'","ay","Écoutez, répétez, travaillez — the vous command ending always sounds 'ay'"],
+      ["-ent (3e personne) est muet","mew-AY","ils parlent sounds exactly like il parle"],
+      ["ai / ei se prononcent 'eh'","eh","mais, la neige, treize"],
+      ["au / eau se prononcent 'o'","oh","au revoir, l'eau, beau"],
+      ["oi se prononce 'wa'","wah","trois, moi, au revoir, chinois"],
+      ["ille se prononce 'ee-yuh'","ee-yuh","la fille, la famille, gentille — but ville and mille say 'eel'"],
+      ["ch se prononce 'sh'","sh","chocolat, chinois, chercher"],
+      ["gn se prononce 'ny'","ny","l'Espagne, espagnol, la montagne"],
+      ["qu se prononce 'k'","k","quatre, quel, qui, musique"],
+      ["Les nasales : an / en","ahn","France, enfant, comment"],
+      ["Les nasales : in / ain / ein","an","vin, pain, plein, américain"],
+      ["Les nasales : on","ohn","bonjour, nom, prénom"],
+      ["Les nasales : un","uhn","un, brun, lundi"]
+    ]}
+  ]
+},
+
+{
+  id:"nombres", name:"Nombres", tag:"Ligne 4", color:"#B5478F",
+  blurb:"Zero to a hundred one by one, then hundreds, thousands and years — plus the two rules that decide when you write et and when you write a hyphen.",
+  groups:[
+    {name:"Les règles", note:
+      "<strong>et</strong> appears only before <code>un</code> — vingt et un, trente et un, quarante et un, cinquante et un, soixante et un — and at <strong>71</strong> (soixante et onze). Everything else takes a hyphen: vingt-deux, quatre-vingt-un, quatre-vingt-onze.<br><br><strong>70 is 'sixty-ten'</strong> and <strong>80 is 'four twenties'</strong>. Belgium and Switzerland use the far easier <em>septante</em> and <em>nonante</em>, but standard French does not.<br><br><strong>cent</strong> takes an -s when multiplied and nothing follows: <em>deux cents</em>, but <em>deux cent cinquante</em>. <strong>mille</strong> never changes.",
+      items:[
+      ["vingt et un","van-tay-UHN","21 — with et"],
+      ["vingt-deux","van-DUH","22 — with a hyphen"],
+      ["soixante et onze","swa-sahnt-ay-ONZ","71 — the only et above 61"],
+      ["quatre-vingt-un","kat-ruh-van-UHN","81 — no et"],
+      ["quatre-vingt-onze","kat-ruh-van-ONZ","91 — no et"],
+      ["deux cents","duh SAHN","200 — cent takes -s"],
+      ["deux cent cinquante","duh sahn sank-AHNT","250 — cent loses the -s"],
+      ["mille","meel","1000 — never takes -s"]
+    ]},
+    {name:"0 à 20", cols:"three", items:range(0,20)},
+    {name:"21 à 40", cols:"three", items:range(21,40)},
+    {name:"41 à 60", cols:"three", items:range(41,60)},
+    {name:"61 à 80", cols:"three", items:range(61,80)},
+    {name:"81 à 100", cols:"three", items:range(81,100)},
+    {name:"Les centaines", cols:"two", items:[
+      ["cent","sahn","100"],["cent un","sahn UHN","101"],["cent dix","sahn DEES","110"],
+      ["cent cinquante","sahn sank-AHNT","150"],["deux cents","duh SAHN","200"],
+      ["deux cent cinquante","duh sahn sank-AHNT","250"],
+      ["trois cents","twah SAHN","300"],
+      ["trois cent soixante-cinq","twah sahn swa-sahnt-SANK","365"],
+      ["quatre cents","katr SAHN","400"],["cinq cents","sank SAHN","500"],
+      ["six cent quatre-vingts","see sahn kat-ruh-VAN","680"],
+      ["sept cent cinquante","set sahn sank-AHNT","750"],
+      ["huit cents","wee SAHN","800"],
+      ["neuf cent quatre-vingt-dix-neuf","nuhf sahn kat-ruh-van-deez-NUHF","999"]
+    ]},
+    {name:"Les milliers", cols:"two", items:[
+      ["mille","meel","1 000"],
+      ["mille cinq cents","meel sank SAHN","1 500"],
+      ["deux mille","duh meel","2 000"],
+      ["trois mille cinq cent vingt","twah meel sank sahn VAN","3 520"],
+      ["cinq mille","sank meel","5 000"],
+      ["dix mille","dee meel","10 000"],
+      ["cent mille","sahn meel","100 000"],
+      ["un million","uhn meel-YOHN","1 000 000"]
+    ]},
+    {name:"Les années", cols:"two", note:
+      "French reads a year as one whole number — never 'nineteen ninety-eight'. So 1998 is literally <em>one thousand nine hundred four-twenty-ten-eight</em>.",
+      items:[
+      ["mille sept cent quatre-vingt-neuf","meel set sahn kat-ruh-van-NUHF","1789"],
+      ["mille neuf cent quarante-cinq","meel nuhf sahn ka-rahnt-SANK","1945"],
+      ["mille neuf cent quatre-vingt-dix-huit","meel nuhf sahn kat-ruh-van-dee-ZWEET","1998"],
+      ["deux mille","duh meel","2000"],
+      ["deux mille deux","duh meel DUH","2002"],
+      ["deux mille vingt-six","duh meel van-SEES","2026"]
+    ]},
+    {name:"Compter — quelques résultats", cols:"two", items:[
+      ["Deux fois quatre égale huit.","duh fwah katr ay-GAL WEET","2 × 4 = 8"],
+      ["Trois fois cinq égale quinze.","twah fwah sank ay-GAL KANZ","3 × 5 = 15"],
+      ["Trois fois six égale dix-huit.","twah fwah sees ay-GAL dee-ZWEET","3 × 6 = 18"],
+      ["Trois fois sept égale vingt et un.","twah fwah set ay-GAL van-tay-UHN","3 × 7 = 21"],
+      ["Quatre fois neuf égale trente-six.","katr fwah nuhf ay-GAL trahnt-SEES","4 × 9 = 36"],
+      ["Cinq fois neuf égale quarante-cinq.","sank fwah nuhf ay-GAL ka-rahnt-SANK","5 × 9 = 45"],
+      ["Huit fois huit égale soixante-quatre.","weet fwah weet ay-GAL swa-sahnt-KAT-ruh","8 × 8 = 64"]
+    ]},
+    {name:"Les numéros de téléphone", note:
+      "French phone numbers have <strong>10 digits</strong>, read in <strong>pairs</strong>: 06 40 08 85 96 is « zéro six, quarante, zéro huit, quatre-vingt-cinq, quatre-vingt-seize ». Mobiles start with <strong>06</strong> or <strong>07</strong>. Landlines: 01 Paris, 02 northwest, 03 northeast, 04 southeast, 05 southwest.",
+      items:[
+      ["zéro un quarante-cinq quarante-huit vingt trente et un","01 45 48 20 31","A Paris landline"],
+      ["zéro six quarante zéro huit quatre-vingt-cinq quatre-vingt-seize","06 40 08 85 96","A mobile"],
+      ["zéro quatre soixante-dix-huit quatre-vingts cinquante-neuf zéro un","04 78 80 59 01","A Lyon landline"],
+      ["Quel est votre numéro de téléphone ?","kel ay VOT-ruh new-may-RO duh tay-lay-FON","What's your phone number?"]
+    ]}
+  ]
+},
+
+{
+  id:"alterego", name:"Alter Ego A1", tag:"Ligne 14", color:"#6B3FA0",
+  blurb:"Dossier 0 (Découverte) and Dossier 1 (Les uns, les autres) — the dialogues, the grammar boxes, and the worked answers to the written exercises.",
+  groups:[
+    {name:"D0 · Se présenter — les dialogues", items:[
+      ["Comment tu t'appelles ?","ko-MAHN tew ta-PELL","What's your name? (informal)"],
+      ["Yoko. Et toi ?","yo-KO. ay TWAH","Yoko. And you?"],
+      ["Je m'appelle Clémence, et vous ?","zhuh ma-PELL klay-MAHNSS, ay VOO","My name is Clémence, and you?"],
+      ["Je m'appelle James.","zhuh ma-PELL","My name is James."],
+      ["Vous vous appelez comment ?","voo voo za-play ko-MAHN","What's your name? (polite)"],
+      ["Épelez, s'il vous plaît.","ay-play, seel voo PLEH","Spell it, please."],
+      ["Comment vous appelez-vous ?","ko-mahn voo za-play-VOO","What's your name? (formal inversion)"],
+      ["Enchanté / Enchantée","ahn-shahn-TAY","Pleased to meet you"]
+    ]},
+    {name:"D0 · S'appeler — indicatif présent", cols:"two", items:[
+      ["Je m'appelle Paul.","zhuh ma-PELL pol","My name is Paul."],
+      ["Tu t'appelles comment ?","tew ta-pell ko-MAHN","What are you called?"],
+      ["Il s'appelle Karl Rainer.","eel sa-PELL karl RAY-nair","His name is Karl Rainer."],
+      ["Elle s'appelle Isabelle.","el sa-PELL ee-za-BELL","Her name is Isabelle."],
+      ["Nous nous appelons Pablo et Alexandra.","noo noo za-play-OHN","We're called Pablo and Alexandra."],
+      ["Vous vous appelez Sofia.","voo voo za-play so-FEE-a","Your name is Sofia."],
+      ["Ils s'appellent M. et Mme Johnson.","eel sa-PELL","They're called Mr and Mrs Johnson."],
+      ["Elles s'appellent Alexandra et Barbara.","el sa-PELL","Their names are Alexandra and Barbara."]
+    ]},
+    {name:"D0 · Être — indicatif présent", cols:"two", items:[
+      ["Je suis canadien.","zhuh swee ka-na-dee-AN","I'm Canadian."],
+      ["Tu es belge.","tew ay BELZH","You're Belgian."],
+      ["Il est allemand ?","eel ay tal-MAHN","Is he German?"],
+      ["Elle est française.","el ay frahn-SEZ","She's French."],
+      ["Nous sommes espagnols.","noo som es-pan-YOL","We're Spanish."],
+      ["Vous êtes russe ?","voo-ZET rewss","Are you Russian?"],
+      ["Ils sont canadiens.","eel sohn ka-na-dee-AN","They're Canadian."],
+      ["Elles sont espagnoles.","el sohn es-pan-YOL","They're Spanish. (fem.)"]
+    ]},
+    {name:"D0 · Faire connaissance — au cocktail", items:[
+      ["Vous vous appelez Sofia ? Moi aussi !","voo voo za-play so-FEE-a ? mwah oh-SEE","Your name's Sofia? Mine too!"],
+      ["Je me présente : José Gomes.","zhuh muh pray-ZAHNT","Let me introduce myself: José Gomes."],
+      ["Je m'appelle Paul Bouchard.","zhuh ma-PELL pol boo-SHAR","My name is Paul Bouchard."],
+      ["Voici Isabelle Moreau. Elle est française.","vwa-SEE ee-za-BELL mo-RO. el ay frahn-SEZ","This is Isabelle Moreau. She's French."],
+      ["Il s'appelle Karl Rainer.","eel sa-PELL karl RAY-nair","His name is Karl Rainer."],
+      ["Qui est-ce ?","kee ESS","Who is it?"],
+      ["Natacha Muller, je suis autrichienne.","zhuh swee zoh-tree-shee-EN","Natacha Muller, I'm Austrian."],
+      ["Moi, je suis mexicaine.","mwah, zhuh swee mek-see-KEN","Me, I'm Mexican."]
+    ]},
+    {name:"D0 · Les articles définis", cols:"two", note:
+      "<strong>le</strong> masculine · <strong>la</strong> feminine · <strong>l'</strong> before a vowel or silent h · <strong>les</strong> plural.",
+      items:[
+      ["le professeur","luh pro-fess-UR","the teacher"],
+      ["le livre","luh LEEV-ruh","the book"],
+      ["la photo","lah fo-TO","the photo"],
+      ["la réponse","lah ray-PONSS","the answer"],
+      ["l'étudiant","lay-tew-dee-AHN","the student (m)"],
+      ["l'étudiante","lay-tew-dee-AHNT","the student (f)"],
+      ["les étudiants","lay zay-tew-dee-AHN","the students"],
+      ["les réponses","lay ray-PONSS","the answers"]
+    ]},
+    {name:"D0 · Le genre des noms de pays", note:
+      "Country names ending in <strong>-e</strong> are usually feminine (la Chine, la France, l'Italie). Ending in <strong>-s</strong> → plural (les États-Unis, les Philippines). Everything else is masculine (le Canada, le Japon, l'Iran).<br><br><strong>Four exceptions</strong> end in -e but stay masculine: le Mexique, le Cambodge, le Zimbabwe, le Mozambique.",
+      items:[
+      ["Les noms de pays qui se terminent par la lettre E sont féminins.","lay nom duh pay-EE kee suh tair-MEEN par lah let-ruh uh sohn fay-mee-NAN","Countries ending in -e are feminine"],
+      ["Les noms de pays qui se terminent par la lettre S sont pluriels.","… sohn plew-ree-ELL","Countries ending in -s are plural"]
+    ]},
+    {name:"D0 · La communication en classe — le professeur", items:[
+      ["Écoutez le dialogue.","ay-koo-TAY luh dee-a-LOG","Listen to the dialogue."],
+      ["Répétez, s'il vous plaît.","ray-pay-TAY, seel voo PLEH","Repeat, please."],
+      ["Regardez la photo.","ruh-gar-DAY lah fo-TO","Look at the picture."],
+      ["Écrivez la réponse.","ay-kree-VAY lah ray-PONSS","Write the answer."],
+      ["Répétez la phrase.","ray-pay-TAY lah FRAZ","Repeat the sentence."],
+      ["Cochez la bonne réponse.","ko-SHAY lah bun ray-PONSS","Tick the correct answer."],
+      ["Soulignez les questions.","soo-leen-YAY lay kes-tee-OHN","Underline the questions."],
+      ["Parlez plus fort !","par-LAY plew FOR","Speak louder!"],
+      ["Ouvrez le livre.","oo-VRAY luh LEEV-ruh","Open the book."],
+      ["Fermez votre livre.","fair-MAY VOT-ruh LEEV-ruh","Close your book."],
+      ["Travaillez en groupe.","tra-va-YAY ahn GROOP","Work in groups."],
+      ["Travaillez par deux.","tra-va-YAY par DUH","Work in pairs."],
+      ["Associez les dialogues aux dessins.","a-so-see-AY lay dee-a-LOG oh day-SAN","Match the dialogues to the pictures."],
+      ["Lisez pour vérifier.","lee-ZAY poor vay-ree-fee-AY","Read to check."]
+    ]},
+    {name:"D0 · La communication en classe — l'étudiant", items:[
+      ["Je ne comprends pas.","zhuh nuh kohm-PRAHN pah","I don't understand."],
+      ["Je ne sais pas.","zhuh nuh say PAH","I don't know."],
+      ["Comment ça s'écrit ?","ko-mahn sa say-KREE","How is it spelled?"],
+      ["Comment ça se prononce ?","ko-mahn sa suh pro-NONSS","How is it pronounced?"],
+      ["Comment on dit « house » en français ?","ko-mahn ohn DEE … ahn frahn-SAY","How do you say 'house' in French?"],
+      ["C'est à quelle page ?","set a kel PAHZH","What page is it?"],
+      ["Quelle est la différence entre tu et vous ?","kel ay lah dee-fay-RAHNSS ahn-truh tew ay VOO","What's the difference between tu and vous?"],
+      ["Comment ? / Pardon ?","ko-MAHN / par-DOHN","Sorry, what?"]
+    ]},
+    {name:"D1·L1 · Saluer — relation formelle", items:[
+      ["Bonjour, madame / monsieur.","bohn-ZHOOR, ma-DAM / muh-SYUH","Hello, madam / sir."],
+      ["Bonsoir, madame.","bohn-SWAHR, ma-DAM","Good evening, madam."],
+      ["Vous allez bien ?","voo za-lay bee-AN","Are you well?"],
+      ["Comment allez-vous ?","ko-mahn ta-lay VOO","How are you?"],
+      ["Au revoir, madame.","oh ruh-VWAHR, ma-DAM","Goodbye, madam."]
+    ]},
+    {name:"D1·L1 · Saluer — relation informelle", items:[
+      ["Bonjour ! / Salut !","bohn-ZHOOR / sa-LEW","Hi!"],
+      ["Tu vas bien ?","tew va bee-AN","You doing OK?"],
+      ["Ça va ?","sa VA","How's it going?"],
+      ["Au revoir ! / Salut ! / Ciao !","oh ruh-VWAHR / sa-LEW / CHOW","Bye!"],
+      ["Bonne journée ! / Bonne soirée !","bun zhoor-NAY / bun swa-RAY","Have a good day / evening!"],
+      ["Bon week-end !","bohn week-END","Have a good weekend!"],
+      ["À demain ! / À lundi !","a duh-MAN / a luhn-DEE","See you tomorrow / Monday!"]
+    ]},
+    {name:"D1·L1 · Les gestes", cols:"two", items:[
+      ["Serrer la main.","sair-AY lah MAN","Shake hands — especially between men."],
+      ["Faire la bise.","fair lah BEEZ","Kiss on the cheek — women who know each other."],
+      ["Faire un signe de la main.","fair uhn SEEN-yuh duh lah MAN","Wave."]
+    ]},
+    {name:"D1·L1 · Le verbe avoir", cols:"three", items:[
+      ["j'ai","zhay","I have"],["tu as","tew AH","you have"],["il / elle a","eel / el AH","he/she has"],
+      ["nous avons","noo za-VOHN","we have"],["vous avez","voo za-VAY","you have"],
+      ["ils / elles ont","eel / el ZOHN","they have"]
+    ]},
+    {name:"D1·L1 · La négation ne… pas", note:
+      "<strong>ne / n'</strong> goes before the verb, <strong>pas</strong> after it. Nothing else comes between them.",
+      items:[
+      ["Je ne parle pas bien anglais.","zhuh nuh parl pah bee-AN nahn-GLAY","I don't speak English well."],
+      ["Je n'ai pas cours le mardi.","zhuh nay pah koor luh mar-DEE","I don't have class on Tuesdays."],
+      ["Je ne travaille pas le week-end.","zhuh nuh tra-vigh pah luh week-END","I don't work weekends."],
+      ["Ils ne sont pas français.","eel nuh sohn pah frahn-SAY","They're not French."]
+    ]},
+    {name:"D1·L2 · Demander poliment", items:[
+      ["Je voudrais des informations, s'il vous plaît.","zhuh voo-DREH day zan-for-ma-see-OHN, seel voo PLEH","I'd like some information, please."],
+      ["Combien ça coûte ?","kohm-bee-AN sa KOOT","How much does it cost?"],
+      ["Ça coûte combien ?","sa koot kohm-bee-AN","How much is it? (casual order)"]
+    ]},
+    {name:"D1·L2 · L'article indéfini", cols:"two", items:[
+      ["un formulaire d'inscription","uhn for-mew-LAIR dan-skreep-see-OHN","a registration form (m sing.)"],
+      ["une pièce d'identité","ewn pee-ESS dee-dahn-tee-TAY","an ID document (f sing.)"],
+      ["des étudiants","day zay-tew-dee-AHN","students (m plur.)"],
+      ["des photos","day fo-TO","photos (f plur.)"]
+    ]},
+    {name:"D1·L2 · L'adjectif interrogatif quel", note:
+      "<strong>quel</strong> agrees with the noun that follows: quel (m sing.) · quelle (f sing.) · quels (m plur.) · quelles (f plur.). All four sound identical — kel.",
+      items:[
+      ["Quel est votre nom ?","kel ay VOT-ruh NOHN","What's your surname?"],
+      ["Quel est votre numéro de téléphone ?","kel ay VOT-ruh new-may-RO duh tay-lay-FON","What's your phone number?"],
+      ["Quelle est votre nationalité ?","kel ay VOT-ruh na-see-o-na-lee-TAY","What's your nationality?"],
+      ["Quelle est votre date de naissance ?","kel ay VOT-ruh dat duh nay-SAHNSS","What's your date of birth?"],
+      ["Quels sont vos numéros de téléphone ?","kel sohn vo new-may-RO duh tay-lay-FON","What are your phone numbers?"],
+      ["Quelles sont vos coordonnées ?","kel sohn vo ko-or-do-NAY","What are your contact details?"]
+    ]},
+    {name:"D1·L2 · Lire une adresse mail", cols:"two", items:[
+      ["Yacine point Bellini arobase yahoo point fr","ya-SEEN pwan bel-LEE-nee a-ro-BAHZ","yacine.bellini@yahoo.fr"],
+      ["N Roux arobase gmail point com","enn roo a-ro-BAHZ zhee-mail pwan kom","nroux@gmail.com"],
+      ["Lina tiret Meunier arobase free point fr","lee-NAH tee-REH muh-nee-AY","lina-meunier@free.fr"],
+      ["Paul tiret bas Martini arobase hotmail point fr","pol tee-reh BAH mar-tee-NEE","paul_martini@hotmail.fr"]
+    ]},
+    {name:"D1·L2 · Signes et ponctuation", cols:"three", items:[
+      ["un tiret","uhn tee-REH","a dash"],["un tiret bas","uhn tee-reh BAH","an underscore"],
+      ["un slash","uhn slash","a slash"],["une arobase","ewn a-ro-BAHZ","an at sign"],
+      ["un point","uhn PWAN","a period"],["une virgule","ewn veer-GEWL","a comma"],
+      ["deux points","duh PWAN","a colon"],["un point-virgule","uhn pwan-veer-GEWL","a semicolon"],
+      ["un point d'interrogation","uhn pwan dan-tair-o-ga-see-OHN","a question mark"],
+      ["un point d'exclamation","uhn pwan dek-skla-ma-see-OHN","an exclamation mark"],
+      ["des parenthèses","day pa-rahn-TEZ","parentheses"]
+    ]},
+    {name:"D0 · Mots internationaux", cols:"three", note:
+      "Every one of these is a near-twin of its English counterpart — proof you already recognise more French than you think.",
+      items:[
+      ["téléphone","tay-lay-FON","telephone"],["film","feelm","film"],["hôtel","oh-TELL","hotel"],
+      ["liberté","lee-bair-TAY","liberty"],["démocratie","day-mo-kra-SEE","democracy"],
+      ["cliché","klee-SHAY","cliché"],["philosophie","fee-lo-zo-FEE","philosophy"],
+      ["musique","mew-ZEEK","music"],["chocolat","sho-ko-LAH","chocolate"],
+      ["architecture","ar-shee-tek-TEWR","architecture"],["café","ka-FAY","coffee"],
+      ["photographie","fo-to-gra-FEE","photography"],["international","an-tair-na-see-o-NAL","international"],
+      ["appartement","a-par-tuh-MAHN","apartment"],["révolution","ray-vo-lew-see-OHN","revolution"],
+      ["monument","mo-new-MAHN","monument"],["océan","o-say-AHN","ocean"]
+    ]}
+  ]
+},
+
+{
+  id:"grammaire", name:"Grammaire Progressive", tag:"Ligne 6", color:"#3F8F63",
+  blurb:"Chapters 1 to 6 — introducing yourself, adjective agreement in all four forms, être, questions, negation, and your first regular verb family.",
+  groups:[
+    {name:"Ch.1 · La présentation", note:
+      "Two rules this chapter rests on. <strong>Always use je suis or je m'appelle</strong> — never a bare name. And <strong>no article before a profession</strong>: <em>je suis médecin</em>, never <em>je suis un médecin</em>. That one catches every English speaker.",
+      items:[
+      ["Bonjour, je suis Kenji Takashi.","bohn-ZHOOR, zhuh swee","Hello, I'm Kenji Takashi."],
+      ["Je m'appelle Kenji Takashi.","zhuh ma-PELL","My name is Kenji Takashi."],
+      ["Vous êtes japonais ? — Oui, je suis japonais.","voo-ZET zha-po-NAY","Are you Japanese? — Yes, I am."],
+      ["Vous êtes médecin ? — Non, je suis chimiste.","voo-ZET mayd-SAN — nohn, zhuh swee shee-MEEST","Are you a doctor? — No, I'm a chemist."],
+      ["Je suis français. Je suis professeur.","zhuh swee frahn-SAY. zhuh swee pro-fess-UR","I'm French. I'm a teacher."],
+      ["Jean, vous êtes professeur ou étudiant ?","zhahn, voo-ZET pro-fess-UR oo zay-tew-dee-AHN","Jean, are you a teacher or a student?"],
+      ["Kenji, vous êtes médecin ou chimiste ?","voo-ZET mayd-SAN oo shee-MEEST","Kenji, are you a doctor or a chemist?"],
+      ["Bip, vous êtes astronaute ou professeur ?","voo-ZET zas-tro-NOTE oo pro-fess-UR","Bip, are you an astronaut or a teacher?"]
+    ]},
+    {name:"Ch.2 · Masculin → féminin", cols:"two", note:
+      "<strong>Féminin = masculin + -e.</strong> The point of that -e: a silent final consonant becomes audible, so you can <em>hear</em> the gender. Words already ending in -e (jeune, russe, calme) don't change.",
+      items:[
+      ["français → française","frahn-SAY → frahn-SEZ","French"],
+      ["portugais → portugaise","por-tew-GAY → por-tew-GEZ","Portuguese"],
+      ["suédois → suédoise","sway-DWAH → sway-DWAZ","Swedish"],
+      ["chinois → chinoise","shee-NWAH → shee-NWAZ","Chinese"],
+      ["mexicain → mexicaine","mek-see-KAN → mek-see-KEN","Mexican"],
+      ["américain → américaine","a-may-ree-KAN → a-may-ree-KEN","American"],
+      ["autrichien → autrichienne","oh-tree-shee-AN → oh-tree-shee-EN","Austrian"],
+      ["canadien → canadienne","ka-na-dee-AN → ka-na-dee-EN","Canadian"],
+      ["coréen → coréenne","ko-ray-AN → ko-ray-EN","Korean"],
+      ["allemand → allemande","al-MAHN → al-MAHND","German"],
+      ["espagnol → espagnole","es-pan-YOL → es-pan-YOL","Spanish"],
+      ["russe → russe","rewss → rewss","Russian — identical"],
+      ["grec → grecque","grek → grek","Greek — irregular"],
+      ["turc → turque","tewrk → tewrk","Turkish — irregular"],
+      ["étudiant → étudiante","ay-tew-dee-AHN → ay-tew-dee-AHNT","student"],
+      ["grand → grande","GRAHN → GRAHND","tall"],
+      ["blond → blonde","BLOHN → BLOHND","blond"],
+      ["marié → mariée","ma-ree-AY → ma-ree-AY","married"],
+      ["petit → petite","puh-TEE → puh-TEET","small"],
+      ["vert → verte","VAIR → VAIRT","green"],
+      ["amusant → amusante","a-mew-ZAHN → a-mew-ZAHNT","funny"],
+      ["intelligent → intelligente","an-tel-ee-ZHAHN → an-tel-ee-ZHAHNT","intelligent"],
+      ["souriant → souriante","soo-ree-AHN → soo-ree-AHNT","smiling"],
+      ["jeune → jeune","ZHUHN → ZHUHN","young — no change"]
+    ]},
+    {name:"Ch.2 · Les autres terminaisons", cols:"two", note:
+      "<strong>-on → -onne</strong> · <strong>-er → -ère</strong> · <strong>-eur / -eux → -euse</strong> · <strong>-teur → -trice</strong> for most professions.<br><br>One exception: <strong>chanteur → chanteuse</strong>, not chantrice. And some jobs never change: <strong>professeur, médecin, écrivain, auteur</strong> stay identical — though professeure, écrivaine and auteure are increasingly used.",
+      items:[
+      ["bon → bonne","bohn → bun","good"],
+      ["breton → bretonne","bruh-TOHN → bruh-TUN","Breton"],
+      ["mignon → mignonne","meen-YOHN → meen-YUN","cute"],
+      ["étranger → étrangère","ay-trahn-ZHAY → ay-trahn-ZHAIR","foreign"],
+      ["boulanger → boulangère","boo-lahn-ZHAY → boo-lahn-ZHAIR","baker"],
+      ["infirmier → infirmière","an-feer-mee-AY → an-feer-mee-AIR","nurse"],
+      ["poissonnier → poissonnière","pwa-son-YAY → pwa-son-YAIR","fishmonger"],
+      ["serveur → serveuse","sair-VUR → sair-VUZ","waiter"],
+      ["danseur → danseuse","dahn-SUR → dahn-SUHZ","dancer"],
+      ["menteur → menteuse","mahn-TUR → mahn-TUZ","liar"],
+      ["heureux → heureuse","uh-RUH → uh-RUZ","happy"],
+      ["acteur → actrice","ak-TUR → ak-TREESS","actor"],
+      ["instituteur → institutrice","an-stee-tew-TUR → an-stee-tew-TREESS","primary teacher"],
+      ["présentateur → présentatrice","pray-zahn-ta-TUR → pray-zahn-ta-TREESS","presenter"],
+      ["chanteur → chanteuse","shahn-TUR → shahn-TUHZ","singer — the exception"],
+      ["professeur → professeur","pro-fess-UR","teacher — unchanged"],
+      ["médecin → médecin","mayd-SAN","doctor — unchanged"],
+      ["beau → belle","BO → BELL","beautiful"],
+      ["gros → grosse","GRO → GROSS","big / fat"],
+      ["vieux → vieille","vee-UH → vee-AY-yuh","old"],
+      ["gentil → gentille","zhahn-TEE → zhahn-TEE-yuh","kind"],
+      ["blanc → blanche","BLAHN → BLAHNSH","white"]
+    ]},
+    {name:"Ch.3 · Singulier → pluriel", cols:"two", note:
+      "<strong>Pluriel = singulier + -s.</strong> But a masculine word already ending in <strong>-s</strong> or <strong>-x</strong> doesn't change at all. One irregular: <em>beau → beaux</em>.<br><br>And when a group is mixed, the masculine plural always wins — one man among ten women still makes it <strong>ils</strong>.",
+      items:[
+      ["il est blond → ils sont blonds","eel ay BLOHN → eel sohn BLOHN","he is / they are blond"],
+      ["elle est blonde → elles sont blondes","el ay BLOHND → el sohn BLOHND","she is / they are blonde"],
+      ["il est étudiant → ils sont étudiants","eel et ay-tew-dee-AHN → eel sohn tay-tew-dee-AHN","student(s)"],
+      ["il est français → ils sont français","eel ay frahn-SAY → eel sohn frahn-SAY","French — no change"],
+      ["il est vieux → ils sont vieux","eel ay vee-UH → eel sohn vee-UH","old — no change"],
+      ["il est beau → ils sont beaux","eel ay BO → eel sohn BO","handsome — irregular"],
+      ["Ils sont américains.","eel sohn ta-may-ree-KAN","They're American."],
+      ["Elles sont brésiliennes.","el sohn bray-zeel-YEN","They're Brazilian. (fem.)"],
+      ["Elles sont danseuses.","el sohn dahn-SUHZ","They're dancers. (fem.)"],
+      ["Ils sont gentils.","eel sohn zhahn-TEE","They're kind."],
+      ["Elles sont gentilles.","el sohn zhahn-TEE-yuh","They're kind. (fem.)"],
+      ["Elles sont célibataires.","el sohn say-lee-ba-TAIR","They're single. (fem.)"]
+    ]},
+    {name:"Ch.4 · Être, tu/vous, on", note:
+      "<strong>vous</strong> does two jobs: polite singular, and plural of any register. <strong>tu</strong> is familiar singular only.<br><br><strong>on</strong> also does two: casual 'we' (<em>Jean et moi, on est fatigués</em>) and general 'people' (<em>Quand on est enrhumé, on est fatigué</em>). It always conjugates like <em>il</em>.",
+      items:[
+      ["Vous êtes prêt, monsieur Meyer ?","voo-ZET PREH, muh-syuh may-AIR","Are you ready, Mr Meyer? (polite)"],
+      ["Tu es prêt, papa ?","tew ay PREH, pa-PAH","Are you ready, dad? (familiar)"],
+      ["Vous êtes prêts ? (messieurs)","voo-ZET PREH","Are you ready? (several men)"],
+      ["Vous êtes prêtes ? (mesdames)","voo-ZET PRET","Are you ready? (several women)"],
+      ["Jean et moi, on est enrhumés.","zhahn ay mwah, oh-nay tahn-rew-MAY","Jean and I have colds. (on = nous)"],
+      ["Quand on est enrhumé, on est fatigué.","kahn oh-nay tahn-rew-MAY, oh-nay fa-tee-GAY","When you have a cold, you're tired. (on = people)"],
+      ["Nous sommes contents d'être à Paris.","noo sum kohn-TAHN detr a pa-REE","We're happy to be in Paris."],
+      ["Nous sommes désolés d'être en retard.","noo sum day-zo-LAY detr ahn ruh-TAR","We're sorry to be late."],
+      ["Quand on est en vacances, on est content.","kahn oh-nay ahn va-KAHNSS, oh-nay kohn-TAHN","When you're on holiday, you're happy."],
+      ["Quand on est en retard, on est pressé.","kahn oh-nay ahn ruh-TAR, oh-nay press-AY","When you're late, you're in a hurry."]
+    ]},
+    {name:"Ch.5 · Poser une question", note:
+      "Three ways to ask the same yes/no question: rising intonation alone, or <strong>est-ce que</strong> on the front. Both are normal in speech — est-ce que is the safer default while you're building confidence, because it signals 'question' from word one.",
+      items:[
+      ["Vous êtes japonais.","voo-ZET zha-po-NAY","You're Japanese. (statement, falling tone)"],
+      ["Vous êtes japonais ?","voo-ZET zha-po-NAY","Are you Japanese? (rising tone)"],
+      ["Est-ce que vous êtes japonais ?","es-kuh voo-ZET zha-po-NAY","Are you Japanese? (with est-ce que)"],
+      ["Est-ce que Jean est français ?","es-kuh zhahn ay frahn-SAY","Is Jean French?"],
+      ["Est-ce que vous êtes étudiant ?","es-kuh voo-ZET zay-tew-dee-AHN","Are you a student?"],
+      ["Est-ce que tu es marié ?","es-kuh tew ay ma-ree-AY","Are you married?"],
+      ["Est-ce que Marco est blond ?","es-kuh mar-KO ay BLOHN","Is Marco blond?"]
+    ]},
+    {name:"Ch.5 · La négation ne… pas", cols:"two", items:[
+      ["Je ne suis pas content.","zhuh nuh swee pah kohn-TAHN","I'm not happy."],
+      ["Elle n'est pas riche.","el nay pah REESH","She's not rich."],
+      ["Ils ne sont pas italiens.","eel nuh sohn pah zee-tal-YAN","They're not Italian."],
+      ["Je ne suis pas brun.","zhuh nuh swee pah BRUHN","I'm not dark-haired."],
+      ["Je ne suis pas français.","zhuh nuh swee pah frahn-SAY","I'm not French."],
+      ["Je ne suis pas professeur.","zhuh nuh swee pah pro-fess-UR","I'm not a teacher."],
+      ["Le lit n'est pas confortable.","luh LEE nay pah kohn-for-TAHB-luh","The bed isn't comfortable."],
+      ["L'eau n'est pas chaude.","lo nay pah SHOWD","The water isn't hot."],
+      ["Les chambres ne sont pas chères.","lay SHAHM-bruh nuh sohn pah SHAIR","The rooms aren't expensive."],
+      ["Non, il n'est pas blond. Il est brun.","nohn, eel nay pah BLOHN. eel ay BRUHN","No, he's not blond. He's dark-haired."]
+    ]},
+    {name:"Ch.6 · Les verbes en -ER", cols:"two", note:
+      "<strong>Drop -er, add -e.</strong> That final -e is silent — <em>je parle</em> is said zhuh PARL. And <strong>je → j'</strong> before a vowel or silent h.<br><br>This is the biggest verb family in French. Almost every new verb you meet will follow it.",
+      items:[
+      ["parler → je parle","zhuh PARL","to speak → I speak"],
+      ["regarder → je regarde","zhuh ruh-GARD","to watch → I watch"],
+      ["manger → je mange","zhuh MAHNZH","to eat → I eat"],
+      ["travailler → je travaille","zhuh tra-VIGH","to work → I work"],
+      ["téléphoner → je téléphone","zhuh tay-lay-FON","to call → I call"],
+      ["écouter → j'écoute","zhay-KOOT","to listen → I listen"],
+      ["aimer → j'aime","zhem","to love → I love"],
+      ["habiter → j'habite","zha-BEET","to live → I live"],
+      ["étudier → j'étudie","zhay-tew-DEE","to study → I study"],
+      ["commencer → je commence","zhuh ko-MAHNSS","to start → I start"],
+      ["terminer → je termine","zhuh tair-MEEN","to finish → I finish"],
+      ["dîner → je dîne","zhuh DEEN","to have dinner → I have dinner"]
+    ]},
+    {name:"Ch.6 · Une journée — le modèle", items:[
+      ["Je travaille dans une banque.","zhuh tra-vigh dahn zewn BAHNK","I work in a bank."],
+      ["Le matin, je commence à 9 heures.","luh ma-TAN, zhuh ko-MAHNSS a nuh-VUR","In the morning I start at 9."],
+      ["Le soir, je termine à 18 heures.","luh SWAHR, zhuh tair-MEEN a dee-zwee-TUR","In the evening I finish at 6."],
+      ["À midi, je mange à la cafétéria avec mes collègues.","a mee-DEE, zhuh MAHNZH a lah ka-fay-tay-REE-a a-vek may ko-LEG","At noon I eat in the cafeteria with my colleagues."],
+      ["Le soir, je dîne chez moi.","luh SWAHR, zhuh DEEN shay MWAH","In the evening I have dinner at home."],
+      ["Après le repas, je regarde la télévision ou j'écoute la radio.","a-PRAY luh ruh-PAH, zhuh ruh-GARD lah tay-lay-vee-zee-OHN oo zhay-KOOT lah ra-dee-O","After the meal I watch TV or listen to the radio."],
+      ["J'aime le sport et la musique.","zhem luh SPOR ay lah mew-ZEEK","I like sport and music."],
+      ["J'habite à Paris.","zha-BEET a pa-REE","I live in Paris."],
+      ["Je parle français.","zhuh parl frahn-SAY","I speak French."],
+      ["J'étudie l'anglais.","zhay-tew-DEE lahn-GLAY","I'm studying English."]
+    ]}
+  ]
+},
+
+{
+  id:"vocab-prog", name:"Vocabulaire Progressif", tag:"Ligne 11", color:"#8C5A2B",
+  blurb:"Units 1 to 3 — the social French of politeness and greetings, the whole family tree with life stages, and the language of love and emotion.",
+  groups:[
+    {name:"U1 · Dire bonjour", items:[
+      ["Bonjour, madame / monsieur.","bohn-ZHOOR, ma-DAM / muh-SYUH","Hello — during the day."],
+      ["Bonsoir, madame.","bohn-SWAHR, ma-DAM","Good evening."],
+      ["Bonjour, ma chère Mathilde !","bohn-ZHOOR, ma SHAIR","Hello, my dear Mathilde!"],
+      ["Bonjour, Bénédicte, comment vas-tu ?","ko-mahn va-TEW","Hello Bénédicte, how are you?"],
+      ["Bien, merci, et toi ?","bee-AN, mair-SEE, ay TWAH","Fine thanks, and you?"],
+      ["Ça va bien, merci.","sa va bee-AN, mair-SEE","I'm doing well, thanks."],
+      ["Salut, Mathilde, ça va ?","sa-LEW, sa VA","Hi Mathilde, you good?"],
+      ["Tiens, salut ! Ça va, merci, et toi ?","tee-AN, sa-LEW","Oh hey! Good thanks, you?"]
+    ]},
+    {name:"U1 · Dire au revoir", items:[
+      ["Au revoir, Diane, à bientôt !","oh ruh-VWAHR, a bee-an-TO","Goodbye Diane, see you soon!"],
+      ["Salut, Simon ! À tout à l'heure !","sa-LEW, a too ta LUR","Bye Simon! See you in a bit!"],
+      ["Bonsoir, Raphaël, à lundi !","bohn-SWAHR, a luhn-DEE","Goodnight Raphaël, see you Monday!"]
+    ]},
+    {name:"U1 · Présenter quelqu'un", items:[
+      ["Je vous présente Florence Dusapin.","zhuh voo pray-ZAHNT","Let me introduce Florence Dusapin."],
+      ["Bonjour, madame, enchanté.","bohn-ZHOOR, ma-DAM, ahn-shahn-TAY","Hello madam, delighted. (said by a man)"],
+      ["Enchantée, monsieur.","ahn-shahn-TAY, muh-SYUH","Delighted. (said by a woman)"],
+      ["Nicolas, est-ce que tu connais ma copine Émilie ?","es-kuh tew ko-NAY ma ko-PEEN","Nicolas, do you know my friend Émilie?"],
+      ["Non, pas encore. Bonjour, Émilie.","nohn, pa zahn-KOR","No, not yet. Hello, Émilie."]
+    ]},
+    {name:"U1 · Accueillir", items:[
+      ["Entrez, je vous en prie !","ahn-TRAY, zhuh voo zahn PREE","Come in, please!"],
+      ["Je peux prendre votre manteau ?","zhuh puh PRAHN-druh VOT-ruh mahn-TO","May I take your coat?"],
+      ["Ça me fait plaisir de vous voir !","sa muh fay play-ZEER duh voo VWAHR","Lovely to see you!"],
+      ["Asseyez-vous, je vous en prie !","a-say-yay VOO, zhuh voo zahn PREE","Please sit down."],
+      ["Je suis content de te voir ! Assieds-toi, je t'en prie !","zhuh swee kohn-TAHN duh tuh VWAHR","Glad to see you! Sit down. (familiar)"]
+    ]},
+    {name:"U1 · S'excuser", items:[
+      ["Oh, pardon, madame. Je suis désolé !","oh, par-DOHN, ma-DAM. zhuh swee day-zo-LAY","Oh, sorry madam. My apologies!"],
+      ["Ce n'est rien, monsieur !","suh nay ree-AN","It's nothing, sir!"],
+      ["Excusez-moi, je suis désolée d'être en retard !","eks-kew-zay MWAH","Excuse me, I'm sorry I'm late!"],
+      ["Je vous en prie, ce n'est pas grave.","zhuh voo zahn PREE, suh nay pah GRAHV","Not at all, it's fine."]
+    ]},
+    {name:"U1 · Demander et remercier", items:[
+      ["Pardon, madame, vous pouvez me dire où est la poste, s'il vous plaît ?","par-DOHN … voo poo-VAY muh DEER oo ay lah POST","Excuse me, could you tell me where the post office is?"],
+      ["C'est au bout de la rue, à droite.","set oh boo duh lah REW, a DRWAHT","It's at the end of the street, on the right."],
+      ["Je vous remercie, madame.","zhuh voo ruh-mair-SEE","Thank you, madam."],
+      ["Je vous en prie, monsieur.","zhuh voo zahn PREE","You're welcome, sir."],
+      ["Tu peux me prêter un euro, s'il te plaît ?","tew puh muh pray-TAY uhn UR-oh","Can you lend me a euro, please?"],
+      ["Oui, bien sûr ! Voilà !","wee, bee-AN SEWR ! vwa-LAH","Yes of course! Here you go!"],
+      ["Merci beaucoup !","mair-SEE bo-KOO","Thanks a lot!"],
+      ["De rien !","duh ree-AN","You're welcome!"]
+    ]},
+    {name:"U1 · Féliciter et plaindre", items:[
+      ["Félicitations ! Toutes mes félicitations !","fay-lee-see-ta-see-OHN","Congratulations!"],
+      ["Je suis vraiment content pour toi !","zhuh swee vray-MAHN kohn-TAHN poor TWAH","I'm really happy for you!"],
+      ["Bravo !","bra-VO","Well done!"],
+      ["Tous mes vœux de bonheur !","too may vuh duh bo-NUR","Wishing you every happiness! (a wedding)"],
+      ["Oh, mon pauvre Marc ! Tu n'as pas de chance !","oh, mohn PO-vruh … tew na pah duh SHAHNSS","Oh, poor Marc! Tough luck!"],
+      ["C'est terrible, c'est affreux, ce n'est pas possible !","say tair-EE-bluh, set a-FRUH","That's terrible, that's awful, that can't be!"],
+      ["Je suis désolé pour vous.","zhuh swee day-zo-LAY poor VOO","I'm so sorry for you."]
+    ]},
+    {name:"U1 · Souhaiter", cols:"two", items:[
+      ["Bonne journée !","bun zhoor-NAY","Have a good day!"],
+      ["Bonne après-midi !","bun a-pray-mee-DEE","Have a good afternoon!"],
+      ["Bonne soirée !","bun swa-RAY","Have a good evening!"],
+      ["Bonne nuit ! Dors bien !","bun NWEE ! dor bee-AN","Good night, sleep well!"],
+      ["Bon week-end !","bohn week-END","Have a good weekend!"],
+      ["Bonnes vacances ! Repose-toi bien !","bun va-KAHNSS ! ruh-poz-twah bee-AN","Enjoy your holiday, rest well!"],
+      ["Bon voyage !","bohn vwa-YAHZH","Have a good trip!"],
+      ["Bon appétit !","bohn a-pay-TEE","Enjoy your meal!"],
+      ["Bon anniversaire ! Joyeux anniversaire !","bun a-nee-vair-SAIR","Happy birthday!"],
+      ["Bonne chance !","bun SHAHNSS","Good luck!"],
+      ["Joyeux Noël !","zhwa-YUH no-ELL","Merry Christmas!"],
+      ["Bonne année ! Tous mes vœux !","bun a-NAY ! too may VUH","Happy New Year!"]
+    ]},
+    {name:"U2 · La famille", cols:"two", items:[
+      ["le mari","luh ma-REE","husband"],["la femme","lah FAM","wife / woman"],
+      ["les parents","lay pa-RAHN","parents"],["les enfants","lay zahn-FAHN","children"],
+      ["le fils","luh FEESS","son"],["la fille","lah FEE-yuh","daughter / girl"],
+      ["le frère","luh FRAIR","brother"],["la sœur","lah SUR","sister"],
+      ["le beau-père","luh bo-PAIR","father-in-law / stepfather"],
+      ["la belle-mère","lah bell-MAIR","mother-in-law / stepmother"],
+      ["la belle-fille","lah bell-FEE-yuh","daughter-in-law"],
+      ["le gendre","luh ZHAHN-druh","son-in-law"],
+      ["le beau-frère","luh bo-FRAIR","brother-in-law"],
+      ["la belle-sœur","lah bell-SUR","sister-in-law"],
+      ["les beaux-parents","lay bo-pa-RAHN","parents-in-law"],
+      ["les grands-parents","lay grahn-pa-RAHN","grandparents"],
+      ["le grand-père","luh grahn-PAIR","grandfather"],
+      ["la grand-mère","lah grahn-MAIR","grandmother"],
+      ["les petits-enfants","lay puh-tee-zahn-FAHN","grandchildren"],
+      ["le petit-fils","luh puh-tee-FEESS","grandson"],
+      ["la petite-fille","lah puh-teet-FEE-yuh","granddaughter"],
+      ["l'oncle","LON-kluh","uncle"],["la tante","lah TAHNT","aunt"],
+      ["le neveu","luh nuh-VUH","nephew"],["la nièce","lah nee-ESS","niece"],
+      ["le cousin","luh koo-ZAN","cousin (m)"],["la cousine","lah koo-ZEEN","cousin (f)"]
+    ]},
+    {name:"U2 · Les noms familiers", cols:"three", items:[
+      ["maman","ma-MAHN","mum"],["papa","pa-PAH","dad"],
+      ["papi","pa-PEE","grandpa"],["mamie","ma-MEE","grandma"],
+      ["tonton","tohn-TOHN","uncle (childish)"],["tatie","ta-TEE","auntie"]
+    ]},
+    {name:"U2 · Les périodes de la vie", cols:"two", note:
+      "<strong>bébé</strong> is always masculine, even for a girl. <strong>personne</strong> is always feminine, even for a man.<br><br>Careful with <strong>la petite-fille</strong> (granddaughter) versus <strong>une petite fille</strong> (a little girl) — the hyphen and article change everything. And <strong>vieux</strong> sounds blunt; <strong>âgé</strong> is the polite word.",
+      items:[
+      ["un bébé — de 0 à 2 ans","uhn bay-BAY","a baby"],
+      ["un enfant — de 2 à 11 ans","uhn nahn-FAHN","a child"],
+      ["un adolescent — de 12 à 18 ans","uhn na-do-lay-SAHN","a teenager"],
+      ["un adulte — après 18 ans","uhn na-DEWLT","an adult"],
+      ["une personne âgée","ewn pair-SUN a-ZHAY","an elderly person"],
+      ["un petit garçon / une petite fille","uhn puh-tee gar-SOHN / ewn puh-teet FEE-yuh","a little boy / girl"],
+      ["une jeune femme","ewn zhuhn FAM","a young woman"],
+      ["J'ai passé mon enfance en Bretagne.","zhay pa-SAY moh nahn-FAHNSS","I spent my childhood in Brittany."],
+      ["Il a eu une adolescence heureuse.","eel a ew ewn a-do-lay-SAHNSS uh-RUHZ","He had a happy adolescence."],
+      ["Quel âge ont Véronique et Denis ?","kel AHZH ohn","How old are Véronique and Denis?"],
+      ["Véronique a 5 ans de moins que Denis.","… san kahn duh MWAN kuh","Véronique is 5 years younger than Denis."],
+      ["Denis a 5 ans de plus que sa femme.","… san kahn duh PLEWSS kuh","Denis is 5 years older than his wife."],
+      ["Les enfants grandissent.","lay zahn-FAHN grahn-DEESS","Children grow."]
+    ]},
+    {name:"U2 · La vie et la mort", items:[
+      ["Aude est née le 28 septembre 1960.","ohd ay NAY luh van-weet sep-TAHM-bruh","Aude was born 28 September 1960."],
+      ["Sa date de naissance est le 28/09/60.","sa dat duh nay-SAHNSS","Her date of birth is 28/09/60."],
+      ["Elle a son anniversaire le 28 septembre.","el a soh na-nee-vair-SAIR","Her birthday is 28 September."],
+      ["Il a perdu sa femme : elle est morte le 10 mai.","eel a pair-DEW sa FAM : el ay MORT","He lost his wife: she died on 10 May."],
+      ["Elle est décédée.","el ay day-say-DAY","She passed away."]
+    ]},
+    {name:"U3 · L'amour", items:[
+      ["Il tombe amoureux de Mathilde.","eel tohnb a-moo-RUH duh","He falls in love with Mathilde."],
+      ["Elle tombe amoureuse.","el tohnb a-moo-RUHZ","She falls in love."],
+      ["Ils s'embrassent.","eel sahm-BRAHSS","They kiss."],
+      ["Je t'aime.","zhuh TEM","I love you."],
+      ["Ils commencent une relation.","eel ko-MAHNSS ewn ruh-la-see-OHN","They start a relationship."],
+      ["Il est célibataire, il vit seul.","eel ay say-lee-ba-TAIR, eel vee SUL","He's single, he lives alone."],
+      ["Ils vivent ensemble.","eel VEEV ahn-SAHM-bluh","They live together."],
+      ["Il sort avec Mathilde.","eel sor a-vek","He's going out with Mathilde."],
+      ["Ils sont amoureux. C'est la passion !","eel sohn ta-moo-RUH. say lah pa-see-OHN","They're in love. It's passion!"],
+      ["Ils décident de se marier.","eel day-SEED duh suh ma-ree-AY","They decide to get married."],
+      ["un mariage civil / un mariage religieux","uhn ma-ree-AHZH see-VEEL / ruh-lee-zhee-UH","a civil / religious wedding"],
+      ["Ils vont à la mairie.","eel vohn a lah may-REE","They go to the town hall."],
+      ["une belle robe de mariée","ewn bell rob duh ma-ree-AY","a beautiful wedding dress"],
+      ["Ils vivent en couple depuis cinq ans.","eel veev ahn KOO-pluh duh-PWEE sank ahn","They've been a couple for five years."]
+    ]},
+    {name:"U3 · Après le mariage", note:
+      "In France only the <strong>mariage civil</strong> at the mairie has legal force. For an unmarried partner you say <strong>mon ami(e)</strong>, or casually <strong>mon copain / ma copine</strong>. Married, it's <strong>mon mari / ma femme</strong>.",
+      items:[
+      ["Ils vont avoir un enfant.","eel vohn ta-VWAHR uhn nahn-FAHN","They're going to have a baby."],
+      ["Ils ont divorcé.","eel zohn dee-vor-SAY","They got divorced."],
+      ["Elle a demandé le divorce.","el a duh-mahn-DAY luh dee-VORSS","She asked for the divorce."],
+      ["Elle a quitté Gabriel il y a six mois.","el a kee-TAY … eel ee a see MWAH","She left Gabriel six months ago."],
+      ["La séparation doit être difficile.","lah say-pa-ra-see-OHN dwah tet-ruh dee-fee-SEEL","The separation must be hard."],
+      ["Il est libre, maintenant.","eel ay LEE-bruh, man-tuh-NAHN","He's free now."],
+      ["On se disputait beaucoup.","ohn suh dees-pew-TAY bo-KOO","We argued a lot."],
+      ["Elle était très jalouse.","el ay-TAY tray zha-LOOZ","She was very jealous."],
+      ["Est-ce que tu voudrais te remarier ?","es-kuh tew voo-DREH tuh ruh-ma-ree-AY","Would you want to remarry?"]
+    ]},
+    {name:"U3 · Le verbe aimer — l'échelle", note:
+      "The intensity ladder, and it matters: <strong>j'aime bien</strong> = a friend · <strong>j'aime beaucoup</strong> = a close friend · <strong>j'aime</strong> alone = your romantic partner · <strong>j'adore</strong> = for things.<br><br>Say bare <em>j'aime</em> about a friend and it sounds like a declaration you didn't mean to make.",
+      items:[
+      ["Grégoire aime bien Carine.","gray-GWAHR em bee-AN","Grégoire likes Carine — they're friends."],
+      ["Grégoire aime beaucoup Dora.","gray-GWAHR em bo-KOO","Grégoire is very fond of Dora."],
+      ["Grégoire aime Juliette.","gray-GWAHR EM","Grégoire loves Juliette — romantically."],
+      ["Juliette est la femme de sa vie !","zhew-lee-ETT ay lah fam duh sa VEE","Juliette is the love of his life!"],
+      ["J'aime bien le chocolat.","zhem bee-AN luh sho-ko-LAH","I quite like chocolate."],
+      ["J'aime beaucoup le chocolat.","zhem bo-KOO luh sho-ko-LAH","I really like chocolate."],
+      ["J'adore le chocolat !","zha-DOR luh sho-ko-LAH","I love chocolate!"]
+    ]},
+    {name:"U3 · Quelques émotions", items:[
+      ["La joie — les enfants sont joyeux, ils rient.","lah ZHWAH — zhwa-YUH, eel REE","Joy — the children are joyful, they laugh."],
+      ["La fierté — les parents sont fiers de leurs enfants.","lah fee-air-TAY — fee-AIR","Pride — the parents are proud of their children."],
+      ["La tristesse — elle est très malheureuse, elle pleure.","lah trees-TESS — mal-uh-RUHZ, el PLUR","Sadness — she's very unhappy, she cries."],
+      ["Elle a beaucoup de chagrin.","el a bo-KOO duh sha-GRAN","She's deeply grieving."],
+      ["La colère — sa mère est furieuse contre lui.","lah ko-LAIR — few-ree-UHZ","Anger — his mother is furious with him."],
+      ["Elle est en colère contre lui.","el et ahn ko-LAIR kohn-truh LWEE","She's angry with him."],
+      ["La peur — il a eu très peur.","lah PUR — eel a ew tray PUR","Fear — he was very frightened."],
+      ["La surprise — il est surpris, étonné.","lah sewr-PREEZ — sewr-PREE, ay-to-NAY","Surprise — he's surprised, astonished."],
+      ["une bonne surprise / une mauvaise surprise","ewn bun sewr-PREEZ / ewn mo-VEZ sewr-PREEZ","a good / bad surprise"],
+      ["L'ennui — il s'ennuie, il ne sait pas quoi faire.","lahn-NWEE — eel sahn-NWEE","Boredom — he's bored, doesn't know what to do."],
+      ["Les dimanches sont ennuyeux.","lay dee-MAHNSH sohn tahn-nwee-YUH","Sundays are boring."],
+      ["Je suis content / contente.","zhuh swee kohn-TAHN / kohn-TAHNT","I'm happy."],
+      ["Je suis heureuse.","zhuh swee zuh-RUHZ","I'm happy. (fem.)"],
+      ["Je suis triste.","zhuh swee TREEST","I'm sad."],
+      ["Je suis fatigué.","zhuh swee fa-tee-GAY","I'm tired."],
+      ["Je suis stressé.","zhuh swee stress-AY","I'm stressed."],
+      ["Je suis pressé.","zhuh swee press-AY","I'm in a hurry."]
+    ]}
+  ]
+},
+
+{
+  id:"vocab", name:"Vocabulaire", tag:"Ligne 7", color:"#C4568A",
+  blurb:"Pure word lists, sorted by theme — days, months, countries, nationalities, languages, jobs, colours and the everyday words you reach for most.",
+  groups:[
+    {name:"Les jours de la semaine", cols:"three", note:
+      "French never capitalises days or months. <strong>lundi</strong> means 'Monday' (this one); <strong>le lundi</strong> means 'on Mondays' (every week).",
+      items:[
+      ["lundi","luhn-DEE","Monday"],["mardi","mar-DEE","Tuesday"],["mercredi","mair-kruh-DEE","Wednesday"],
+      ["jeudi","zhuh-DEE","Thursday"],["vendredi","vahn-druh-DEE","Friday"],["samedi","sam-DEE","Saturday"],
+      ["dimanche","dee-MAHNSH","Sunday"]
+    ]},
+    {name:"Les mois de l'année", cols:"three", items:[
+      ["janvier","zhahn-vee-AY","January"],["février","fay-vree-AY","February"],["mars","marss","March"],
+      ["avril","a-VREEL","April"],["mai","may","May"],["juin","zhwan","June"],
+      ["juillet","zhwee-YAY","July"],["août","oot","August"],["septembre","sep-TAHM-bruh","September"],
+      ["octobre","ok-TOH-bruh","October"],["novembre","no-VAHM-bruh","November"],["décembre","day-SAHM-bruh","December"]
+    ]},
+    {name:"Le temps qui passe", cols:"two", items:[
+      ["aujourd'hui","oh-zhoor-DWEE","today"],["demain","duh-MAN","tomorrow"],["hier","ee-AIR","yesterday"],
+      ["le matin","luh ma-TAN","the morning"],["l'après-midi","la-pray-mee-DEE","the afternoon"],
+      ["le soir","luh SWAHR","the evening"],["la nuit","lah NWEE","the night"],
+      ["la semaine","lah suh-MEN","the week"],["le week-end","luh week-END","the weekend"],
+      ["le mois","luh MWAH","the month"],["l'année","la-NAY","the year"],
+      ["Quel jour sommes-nous ?","kel zhoor som-NOO","What day is it?"],
+      ["à midi","a mee-DEE","at noon"],["le 14 juillet","luh ka-TORZ zhwee-YAY","the 14th of July"]
+    ]},
+    {name:"Les pays", cols:"two", note:
+      "The article tells you the gender, so learn them together: <strong>la</strong> France, <strong>le</strong> Japon, <strong>l'</strong>Italie, <strong>les</strong> États-Unis.",
+      items:[
+      ["la France","lah FRAHNSS","France"],["l'Allemagne","lal-MAHN-yuh","Germany"],
+      ["l'Espagne","les-PAN-yuh","Spain"],["l'Italie","lee-ta-LEE","Italy"],
+      ["le Portugal","luh por-tew-GAL","Portugal"],["la Grèce","lah GRESS","Greece"],
+      ["la Pologne","lah po-LON-yuh","Poland"],["la Russie","lah rew-SEE","Russia"],
+      ["la Suède","lah sew-ED","Sweden"],["le Danemark","luh dan-MARK","Denmark"],
+      ["l'Autriche","loh-TREESH","Austria"],["l'Irlande","leer-LAHND","Ireland"],
+      ["les Pays-Bas","lay pay-ee-BAH","the Netherlands"],["la Chine","lah SHEEN","China"],
+      ["le Japon","luh zha-POHN","Japan"],["la Corée","lah ko-RAY","Korea"],
+      ["l'Iran","lee-RAHN","Iran"],["le Maroc","luh ma-ROK","Morocco"],
+      ["la Tunisie","lah tew-nee-ZEE","Tunisia"],["l'Éthiopie","lay-tee-o-PEE","Ethiopia"],
+      ["le Canada","luh ka-na-DAH","Canada"],["les États-Unis","lay zay-ta-zew-NEE","the United States"],
+      ["le Mexique","luh mek-SEEK","Mexico"],["la Bolivie","lah bo-lee-VEE","Bolivia"],
+      ["les Philippines","lay fee-lee-PEEN","the Philippines"],["le Cambodge","luh kahm-BOJ","Cambodia"]
+    ]},
+    {name:"Les continents", cols:"three", items:[
+      ["l'Afrique","laf-REEK","Africa"],["l'Amérique","la-may-REEK","America"],["l'Asie","la-ZEE","Asia"],
+      ["l'Europe","luh-ROP","Europe"],["l'Océanie","lo-say-a-NEE","Oceania"]
+    ]},
+    {name:"Les nationalités", cols:"two", items:[
+      ["français / française","frahn-SAY / frahn-SEZ","French"],
+      ["allemand / allemande","al-MAHN / al-MAHND","German"],
+      ["espagnol / espagnole","es-pan-YOL","Spanish"],
+      ["italien / italienne","ee-tal-YAN / ee-tal-YEN","Italian"],
+      ["portugais / portugaise","por-tew-GAY / por-tew-GEZ","Portuguese"],
+      ["grec / grecque","grek","Greek"],
+      ["polonais / polonaise","po-lo-NAY / po-lo-NEZ","Polish"],
+      ["russe / russe","rewss","Russian"],
+      ["suédois / suédoise","sway-DWAH / sway-DWAZ","Swedish"],
+      ["autrichien / autrichienne","oh-tree-shee-AN / oh-tree-shee-EN","Austrian"],
+      ["anglais / anglaise","ahn-GLAY / ahn-GLEZ","English"],
+      ["belge / belge","belzh","Belgian"],
+      ["norvégien / norvégienne","nor-vay-zhee-AN / nor-vay-zhee-EN","Norwegian"],
+      ["chinois / chinoise","shee-NWAH / shee-NWAZ","Chinese"],
+      ["japonais / japonaise","zha-po-NAY / zha-po-NEZ","Japanese"],
+      ["coréen / coréenne","ko-ray-AN / ko-ray-EN","Korean"],
+      ["indien / indienne","an-dee-AN / an-dee-EN","Indian"],
+      ["iranien / iranienne","ee-ra-nee-AN / ee-ra-nee-EN","Iranian"],
+      ["marocain / marocaine","ma-ro-KAN / ma-ro-KEN","Moroccan"],
+      ["tunisien / tunisienne","tew-nee-zee-AN / tew-nee-zee-EN","Tunisian"],
+      ["camerounais / camerounaise","ka-mroo-NAY / ka-mroo-NEZ","Cameroonian"],
+      ["américain / américaine","a-may-ree-KAN / a-may-ree-KEN","American"],
+      ["canadien / canadienne","ka-na-dee-AN / ka-na-dee-EN","Canadian"],
+      ["mexicain / mexicaine","mek-see-KAN / mek-see-KEN","Mexican"],
+      ["brésilien / brésilienne","bray-zeel-YAN / bray-zeel-YEN","Brazilian"],
+      ["chilien / chilienne","shee-lee-AN / shee-lee-EN","Chilean"],
+      ["colombien / colombienne","ko-lom-bee-AN / ko-lom-bee-EN","Colombian"],
+      ["australien / australienne","os-tra-lee-AN / os-tra-lee-EN","Australian"],
+      ["turc / turque","tewrk","Turkish"]
+    ]},
+    {name:"Les langues", cols:"two", items:[
+      ["le français","luh frahn-SAY","French"],["l'anglais","lahn-GLAY","English"],
+      ["l'espagnol","les-pan-YOL","Spanish"],["l'allemand","lal-MAHN","German"],
+      ["l'italien","lee-tal-YAN","Italian"],["le portugais","luh por-tew-GAY","Portuguese"],
+      ["le russe","luh REWSS","Russian"],["le chinois","luh shee-NWAH","Chinese"],
+      ["le japonais","luh zha-po-NAY","Japanese"],["l'arabe","la-RAHB","Arabic"],
+      ["le polonais","luh po-lo-NAY","Polish"],["le vietnamien","luh vee-et-nam-YAN","Vietnamese"],
+      ["le thaï","luh TIE","Thai"],["le norvégien","luh nor-vay-zhee-AN","Norwegian"],
+      ["Vous parlez quelle langue ?","voo par-LAY kel LAHNG","What language do you speak?"],
+      ["Je parle anglais et un peu français.","zhuh parl ahn-GLAY ay uhn puh frahn-SAY","I speak English and a little French."]
+    ]},
+    {name:"Les professions", cols:"two", items:[
+      ["professeur","pro-fess-UR","teacher"],["étudiant / étudiante","ay-tew-dee-AHN / ay-tew-dee-AHNT","student"],
+      ["médecin","mayd-SAN","doctor"],["chimiste","shee-MEEST","chemist"],
+      ["infirmier / infirmière","an-feer-mee-AY / an-feer-mee-AIR","nurse"],
+      ["boulanger / boulangère","boo-lahn-ZHAY / boo-lahn-ZHAIR","baker"],
+      ["serveur / serveuse","sair-VUR / sair-VUZ","waiter"],
+      ["vendeur / vendeuse","vahn-DUR / vahn-DUZ","salesperson"],
+      ["acteur / actrice","ak-TUR / ak-TREESS","actor"],
+      ["chanteur / chanteuse","shahn-TUR / shahn-TUHZ","singer"],
+      ["danseur / danseuse","dahn-SUR / dahn-SUHZ","dancer"],
+      ["écrivain","ay-kree-VAN","writer"],["auteur","oh-TUR","author"],
+      ["journaliste","zhoor-na-LEEST","journalist"],["chirurgien","shee-rewr-zhee-AN","surgeon"],
+      ["agriculteur / agricultrice","a-gree-kewl-TUR / a-gree-kewl-TREESS","farmer"],
+      ["facteur","fak-TUR","postal worker"],["astronaute","as-tro-NOTE","astronaut"],
+      ["photographe","fo-to-GRAF","photographer"],["responsable de marketing","res-pon-SAH-bluh duh mar-ket-EENG","marketing manager"]
+    ]},
+    {name:"Les couleurs", cols:"three", items:[
+      ["bleu / bleue","BLUH","blue"],["rouge","ROOZH","red"],["vert / verte","VAIR / VAIRT","green"],
+      ["jaune","ZHOHN","yellow"],["noir / noire","NWAHR","black"],["blanc / blanche","BLAHN / BLAHNSH","white"],
+      ["gris / grise","GREE / GREEZ","grey"],["marron","ma-ROHN","brown"],["rose","ROHZ","pink"],
+      ["orange","o-RAHNZH","orange"],["violet / violette","vee-o-LEH / vee-o-LETT","purple"]
+    ]},
+    {name:"Décrire quelqu'un", cols:"two", items:[
+      ["grand / grande","GRAHN / GRAHND","tall"],["petit / petite","puh-TEE / puh-TEET","short, small"],
+      ["blond / blonde","BLOHN / BLOHND","blond"],["brun / brune","BRUHN / BREWN","dark-haired"],
+      ["jeune","ZHUHN","young"],["âgé / âgée","a-ZHAY","elderly"],
+      ["beau / belle","BO / BELL","good-looking"],["joli / jolie","zho-LEE","pretty"],
+      ["gentil / gentille","zhahn-TEE / zhahn-TEE-yuh","kind"],
+      ["sympathique","san-pa-TEEK","nice, friendly"],
+      ["intelligent / intelligente","an-tel-ee-ZHAHN / an-tel-ee-ZHAHNT","intelligent"],
+      ["amusant / amusante","a-mew-ZAHN / a-mew-ZAHNT","funny"],
+      ["drôle","DROHL","funny"],["calme","KALM","calm"],
+      ["curieux / curieuse","kew-ree-UH / kew-ree-UHZ","curious"],
+      ["courageux / courageuse","koo-ra-ZHUH / koo-ra-ZHUHZ","brave"],
+      ["dynamique","dee-na-MEEK","energetic"],["rapide","ra-PEED","quick"],
+      ["précis / précise","pray-SEE / pray-SEEZ","precise"],["patient / patiente","pa-see-AHN / pa-see-AHNT","patient"],
+      ["souriant / souriante","soo-ree-AHN / soo-ree-AHNT","smiling"],
+      ["distrait / distraite","dee-STREH / dee-STRET","absent-minded"],
+      ["jaloux / jalouse","zha-LOO / zha-LOOZ","jealous"],
+      ["célibataire","say-lee-ba-TAIR","single"],["marié / mariée","ma-ree-AY","married"],
+      ["divorcé / divorcée","dee-vor-SAY","divorced"],["riche","REESH","rich"],
+      ["musclé / musclée","mews-KLAY","muscular"],["célèbre","say-LEB-ruh","famous"]
+    ]},
+    {name:"Les personnes", cols:"two", items:[
+      ["un bébé","uhn bay-BAY","a baby"],["un enfant","uhn nahn-FAHN","a child"],
+      ["un garçon","uhn gar-SOHN","a boy"],["une fille","ewn FEE-yuh","a girl"],
+      ["un jeune homme","uhn zhuh-NOM","a young man"],["une jeune fille","ewn zhuhn FEE-yuh","a young girl"],
+      ["un homme / un monsieur","uh NOM / uhn muh-SYUH","a man / a gentleman"],
+      ["une femme / une dame","ewn FAM / ewn DAM","a woman / a lady"],
+      ["des jeunes gens","day zhuhn ZHAHN","young people"],
+      ["un ami / une amie","uh na-MEE / ewn a-MEE","a friend"],
+      ["un copain / une copine","uhn ko-PAN / ewn ko-PEEN","a mate / a girlfriend"],
+      ["un voisin / une voisine","uhn vwa-ZAN / ewn vwa-ZEEN","a neighbour"],
+      ["un collègue","uhn ko-LEG","a colleague"],["un client / une cliente","uhn klee-AHN / ewn klee-AHNT","a customer"],
+      ["un employé / une employée","uh nahm-plwa-YAY","an employee"]
+    ]},
+    {name:"L'identité — mots utiles", cols:"two", items:[
+      ["le nom","luh NOHN","surname"],["le prénom","luh pray-NOHN","first name"],
+      ["la nationalité","lah na-see-o-na-lee-TAY","nationality"],
+      ["la date de naissance","lah dat duh nay-SAHNSS","date of birth"],
+      ["l'adresse","la-DRESS","address"],["l'adresse mail","la-DRESS mail","email address"],
+      ["le numéro de téléphone","luh new-may-RO duh tay-lay-FON","phone number"],
+      ["les coordonnées","lay ko-or-do-NAY","contact details"],
+      ["un formulaire d'inscription","uhn for-mew-LAIR dan-skreep-see-OHN","a registration form"],
+      ["une pièce d'identité","ewn pee-ESS dee-dahn-tee-TAY","proof of identity"],
+      ["la carte d'étudiant","lah kart day-tew-dee-AHN","student card"],
+      ["le passeport","luh pas-POR","passport"],
+      ["une photo","ewn fo-TO","a photo"],["la médiathèque","lah may-dee-a-TEK","the media library"],
+      ["l'université","lew-nee-vair-see-TAY","the university"],["l'accueil","la-KUH-yuh","reception"],
+      ["l'inscription est gratuite","lan-skreep-see-OHN ay gra-TWEET","registration is free"]
+    ]},
+    {name:"Objets et lieux du quotidien", cols:"two", items:[
+      ["le livre","luh LEEV-ruh","the book"],["la page","lah PAHZH","the page"],
+      ["le mot","luh MOH","the word"],["la phrase","lah FRAZ","the sentence"],
+      ["la question","lah kes-tee-OHN","the question"],["la réponse","lah ray-PONSS","the answer"],
+      ["le dialogue","luh dee-a-LOG","the dialogue"],["l'affiche","la-FEESH","the poster"],
+      ["le dessin","luh day-SAN","the drawing"],["la classe","lah KLAS","the class"],
+      ["l'école","lay-KOL","the school"],["la banque","lah BAHNK","the bank"],
+      ["la poste","lah POST","the post office"],["l'hôtel","lo-TELL","the hotel"],
+      ["la chambre","lah SHAHM-bruh","the bedroom"],["le lit","luh LEE","the bed"],
+      ["la maison","lah may-ZOHN","the house"],["l'appartement","la-par-tuh-MAHN","the flat"],
+      ["le café","luh ka-FAY","the café / coffee"],["la rue","lah REW","the street"],
+      ["l'église","lay-GLEEZ","the church"],["la mairie","lah may-REE","the town hall"],
+      ["la fête","lah FET","the party"],["les vacances","lay va-KAHNSS","the holidays"],
+      ["le travail","luh tra-VIGH","work"],["le sport","luh SPOR","sport"],
+      ["le cinéma","luh see-nay-MAH","cinema"],["la musique","lah mew-ZEEK","music"]
+    ]},
+    {name:"La nature", cols:"three", items:[
+      ["la mer","lah MAIR","the sea"],["la nuit","lah NWEE","the night"],
+      ["l'herbe","LAIRB","the grass"],["la neige","lah NEZH","the snow"],
+      ["le soleil","luh so-LAY","the sun"],["la lune","lah LEWN","the moon"],
+      ["la fleur","lah FLUR","the flower"],["l'arbre","LAR-bruh","the tree"],
+      ["la terre","lah TAIR","the earth"],["l'eau","LO","water"],
+      ["un oiseau","uh nwa-ZO","a bird"],["une île","ew NEEL","an island"]
+    ]},
+    {name:"Petits mots essentiels", cols:"three", items:[
+      ["oui","WEE","yes"],["non","NOHN","no"],["et","ay","and"],["ou","oo","or"],
+      ["mais","may","but"],["aussi","oh-SEE","too, also"],["avec","a-VEK","with"],
+      ["très","tray","very"],["un peu","uhn PUH","a little"],["beaucoup","bo-KOO","a lot"],
+      ["encore","ahn-KOR","still, again"],["maintenant","man-tuh-NAHN","now"],
+      ["toujours","too-ZHOOR","always"],["souvent","soo-VAHN","often"],
+      ["ensemble","ahn-SAHM-bluh","together"],["seul / seule","SUL","alone"],
+      ["ici","ee-SEE","here"],["voici","vwa-SEE","here is"],["voilà","vwa-LAH","there you go"],
+      ["pourquoi","poor-KWAH","why"],["parce que","pars kuh","because"],
+      ["comment","ko-MAHN","how"],["où","oo","where"],["quand","kahn","when"],
+      ["qui","kee","who"],["combien","kohm-bee-AN","how much"],
+      ["c'est","say","it is"],["il y a","eel ee AH","there is / there are"]
+    ]}
+  ]
+}
+];
+
+/* ============================================================
+   SPEECH
+   ============================================================ */
+let voice=null, voiceReady=false;
+function pickVoice(){
+  const vs=speechSynthesis.getVoices();
+  if(!vs.length) return;
+  voice=vs.find(v=>/^fr[-_]FR/i.test(v.lang))||vs.find(v=>/^fr/i.test(v.lang))||null;
+  voiceReady=true;
+  const chip=document.getElementById('voicechip');
+  if(voice){ chip.textContent="Voice · "+voice.name.replace(/\s*\(.*\)/,''); chip.classList.remove('bad'); }
+  else { chip.textContent="No French voice installed"; chip.classList.add('bad'); }
+}
+if('speechSynthesis' in window){
+  speechSynthesis.addEventListener('voiceschanged',pickVoice);
+  pickVoice();
+  setTimeout(pickVoice,600);
+} else {
+  document.getElementById('voicechip').textContent="Speech not supported here";
+}
+
+let currentEl=null;
+function stopAll(){
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  queue=null;
+  if(queueBtn){queueBtn.classList.remove('on');queueBtn.textContent="Play all";queueBtn=null;}
+  document.querySelectorAll('.item.speaking').forEach(e=>e.classList.remove('speaking'));
+  currentEl=null;
+}
+function speak(text,el,onend){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  document.querySelectorAll('.item.speaking').forEach(e=>e.classList.remove('speaking'));
+  const clean=text.replace(/\s*[—–]\s*/g,', ').replace(/\s*→\s*/g,', ');
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='fr-FR';
+  if(voice) u.voice=voice;
+  u.rate=0.8;
+  if(el){el.classList.add('speaking'); currentEl=el;}
+  u.onend=()=>{
+    if(el) el.classList.remove('speaking');
+    if(onend) onend();
+  };
+  u.onerror=()=>{ if(el) el.classList.remove('speaking'); };
+  speechSynthesis.speak(u);
+}
+
+let queue=null, queueBtn=null;
+function playGroup(btn,items,tiles){
+  if(queueBtn===btn){ stopAll(); return; }
+  stopAll();
+  queueBtn=btn; btn.classList.add('on'); btn.textContent="Stop";
+  queue=0;
+  (function step(){
+    if(queue===null||queue>=items.length){ stopAll(); return; }
+    const i=queue, el=tiles[i];
+    el.scrollIntoView({block:'nearest',behavior:'smooth'});
+    speak(items[i][0],el,()=>{ if(queue!==null){ queue=i+1; step(); } });
+  })();
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+const contentEl=document.getElementById('content');
+const railEl=document.getElementById('rail');
+const mrailEl=document.getElementById('mobilerail');
+
+let totalItems=0, totalGroups=0;
+DATA.forEach(s=>{ totalGroups+=s.groups.length; s.groups.forEach(g=>totalItems+=g.items.length); });
+document.getElementById('statItems').textContent=totalItems.toLocaleString();
+document.getElementById('statGroups').textContent=totalGroups;
+document.getElementById('statLines').textContent=DATA.length;
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function makeItem(it,section,hi){
+  const [fr,ph,en]=it;
+  const b=document.createElement('button');
+  b.className='item'; b.type='button';
+  b.setAttribute('aria-label',fr);
+  let frH=esc(fr), enH=en?esc(en):'', phH=esc(ph);
+  if(hi){ frH=mark(frH,hi); enH=enH?mark(enH,hi):''; }
+  b.innerHTML =
+    (en?'<span class="en">'+enH+'</span>':'') +
+    '<span class="fr">'+frH+'</span>' +
+    '<span class="ph">'+phH+'</span>';
+  b.addEventListener('click',()=>{
+    if(currentEl===b && speechSynthesis.speaking){ stopAll(); return; }
+    stopAll(); speak(fr,b);
+  });
+  return b;
+}
+function mark(text,q){
+  const i=text.toLowerCase().indexOf(q.toLowerCase());
+  if(i<0) return text;
+  return text.slice(0,i)+'<mark>'+text.slice(i,i+q.length)+'</mark>'+text.slice(i+q.length);
+}
+
+function renderSection(id){
+  stopAll();
+  const s=DATA.find(x=>x.id===id)||DATA[0];
+  contentEl.style.setProperty('--line',s.color);
+  contentEl.innerHTML='';
+
+  const head=document.createElement('div');
+  head.className='sechead';
+  head.innerHTML='<span class="sectag">'+esc(s.tag)+'</span><h2>'+esc(s.name)+'</h2><p>'+s.blurb+'</p>';
+  contentEl.appendChild(head);
+
+  s.groups.forEach((g,gi)=>{
+    const wrap=document.createElement('section');
+    wrap.className='group';
+    wrap.id='g-'+id+'-'+gi;
+
+    const gh=document.createElement('div');
+    gh.className='grouphead';
+    gh.innerHTML='<h3>'+esc(g.name)+'</h3>';
+    const pb=document.createElement('button');
+    pb.className='playall'; pb.type='button'; pb.textContent='Play all';
+    gh.appendChild(pb);
+    wrap.appendChild(gh);
+
+    if(g.note){
+      const n=document.createElement('div');
+      n.className='note'; n.innerHTML=g.note;
+      wrap.appendChild(n);
+    }
+
+    const box=document.createElement('div');
+    box.className='items '+(g.cols||'');
+    const tiles=g.items.map(it=>{ const t=makeItem(it,s); box.appendChild(t); return t; });
+    wrap.appendChild(box);
+
+    pb.addEventListener('click',()=>playGroup(pb,g.items,tiles));
+    contentEl.appendChild(wrap);
+  });
+
+  document.querySelectorAll('.stop').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+  document.querySelectorAll('.mchip').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+  window.scrollTo({top:0,behavior:'instant' in window?'instant':'auto'});
+}
+
+function buildNav(){
+  DATA.forEach(s=>{
+    const b=document.createElement('button');
+    b.className='stop'; b.type='button'; b.dataset.id=s.id;
+    b.style.setProperty('--stopcolor',s.color);
+    const n=s.groups.reduce((a,g)=>a+g.items.length,0);
+    b.innerHTML=esc(s.name)+'<span class="count">'+n+'</span>';
+    b.addEventListener('click',()=>{ location.hash=s.id; });
+    railEl.appendChild(b);
+
+    const m=document.createElement('button');
+    m.className='mchip'; m.type='button'; m.dataset.id=s.id;
+    m.style.setProperty('--stopcolor',s.color);
+    m.innerHTML='<span class="dot"></span>'+esc(s.name);
+    m.addEventListener('click',()=>{ location.hash=s.id; });
+    mrailEl.appendChild(m);
+  });
+}
+
+/* ---------- search ---------- */
+const FLAT=[];
+DATA.forEach(s=>s.groups.forEach(g=>g.items.forEach(it=>{
+  FLAT.push({it,section:s,group:g.name});
+})));
+
+function runSearch(q){
+  stopAll();
+  const term=q.trim().toLowerCase();
+  if(!term){ route(); return; }
+  const hits=FLAT.filter(r=>
+    r.it[0].toLowerCase().includes(term) ||
+    (r.it[2]&&r.it[2].toLowerCase().includes(term)) ||
+    r.it[1].toLowerCase().includes(term)
+  ).slice(0,320);
+
+  contentEl.style.setProperty('--line','#16233A');
+  contentEl.innerHTML='';
+  document.querySelectorAll('.stop,.mchip').forEach(b=>b.classList.remove('on'));
+
+  if(!hits.length){
+    contentEl.innerHTML='<div class="empty"><b>Nothing matched “'+esc(q)+'”.</b>Try a shorter word, or the English meaning — searching <em>family</em> finds la famille, and <em>87</em> finds quatre-vingt-sept.</div>';
+    return;
+  }
+
+  const meta=document.createElement('div');
+  meta.className='resultmeta';
+  meta.textContent=hits.length+(hits.length===320?'+':'')+' result'+(hits.length===1?'':'s')+' for “'+q+'”';
+  contentEl.appendChild(meta);
+
+  const byGroup=new Map();
+  hits.forEach(r=>{
+    const key=r.section.id+'||'+r.group;
+    if(!byGroup.has(key)) byGroup.set(key,{section:r.section,group:r.group,rows:[]});
+    byGroup.get(key).rows.push(r.it);
+  });
+
+  byGroup.forEach(bucket=>{
+    const wrap=document.createElement('section');
+    wrap.className='rgroup';
+    wrap.style.setProperty('--line',bucket.section.color);
+    wrap.innerHTML='<span class="path">'+esc(bucket.section.name)+' · '+esc(bucket.group)+'</span>';
+    const box=document.createElement('div');
+    box.className='items two';
+    bucket.rows.forEach(it=>box.appendChild(makeItem(it,bucket.section,term)));
+    wrap.appendChild(box);
+    contentEl.appendChild(wrap);
+  });
+  window.scrollTo({top:0});
+}
+
+/* ---------- routing ---------- */
+function route(){
+  const id=location.hash.replace('#','');
+  renderSection(DATA.some(s=>s.id===id)?id:DATA[0].id);
+}
+window.addEventListener('hashchange',()=>{
+  const qEl=document.getElementById('q');
+  if(qEl.value){ qEl.value=''; document.getElementById('clear').hidden=true; }
+  route();
+});
+
+const qEl=document.getElementById('q');
+const clearBtn=document.getElementById('clear');
+let debounce;
+qEl.addEventListener('input',()=>{
+  clearBtn.hidden=!qEl.value;
+  clearTimeout(debounce);
+  debounce=setTimeout(()=>runSearch(qEl.value),140);
+});
+clearBtn.addEventListener('click',()=>{
+  qEl.value=''; clearBtn.hidden=true; qEl.focus(); route();
+});
+qEl.addEventListener('keydown',e=>{ if(e.key==='Escape'){ qEl.value=''; clearBtn.hidden=true; route(); }});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='/' && document.activeElement!==qEl){ e.preventDefault(); qEl.focus(); }
+});
+
+buildNav();
+route();
+</script>
+</body>
+</html>
