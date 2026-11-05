@@ -9,7 +9,19 @@ function sectionsFor(level){
   const rank=s=>/^(ae-|alterego)/.test(s.id)?0:/^(ca-|cahier)/.test(s.id)?1:/^(gr-|grammaire)/.test(s.id)?2:/^(vp-|vocab-prog)/.test(s.id)?3:4;
   return DATA.filter(s=>secLevels(s).includes(level)).sort((a,b)=>rank(a)-rank(b));
 }
-function levelLessons(level){ return sectionsFor(level).filter(s=>!s.placeholder).flatMap(s=>s.lessons); }
+function lessonInLevel(les, sec, level){
+  if(les.level) return les.level===level;
+  if(les.levels&&les.levels.length) return les.levels.includes(level);
+  return secLevels(sec)[0]===level;
+}
+function levelLessons(level){
+  const out=[];
+  sectionsFor(level).forEach(sec=>{
+    if(sec.placeholder) return;
+    sec.lessons.forEach(les=>{ if(lessonInLevel(les, sec, level)) out.push(les); });
+  });
+  return out;
+}
 function levelProgress(level){
   const lessons=levelLessons(level);
   const doneN=lessons.filter(l=>done.has(l.id)).length;
@@ -542,7 +554,7 @@ function viewHome(levelArg){
     '<div class="hero2-l">'+
       '<span class="eyebrow">Carnet d\'étude · A1 → B2</span>'+
       '<h1>Learn French from the books you are actually using.</h1>'+
-      '<p>A1 is filled in. A2, B1 and B2 already have a shelf for Alter Ego, the cahier, Grammaire progressive and Vocabulaire progressif — those books are waiting on their text. On A1, dossiers 0–5 of Alter Ego stay transcribed line by line; the rest is original practice you can check, with the scans and the CD kept. Tap a French line to hear it.</p>'+
+      '<p>From A1 to B2, each level follows the books you study: Alter Ego, the cahier, Grammaire progressive and Vocabulaire progressif. Every line here is original French, with an English translation and a phonetic hint — tap it to hear it. Exercises check themselves.</p>'+
       '<div class="hero2-cta">'+
         '<button class="btn-solid" id="goPath">Study path</button>'+
         '<button class="btn-ghost" id="goPractice">Practise now</button>'+
@@ -619,8 +631,10 @@ function viewHome(levelArg){
 
   const grid=document.createElement('div'); grid.className='shelf';
   sectionsFor(level).forEach(sec=>{
-    const doneN=sec.lessons.filter(l=>done.has(l.id)).length;
-    const pct=sec.lessons.length?Math.round(doneN/sec.lessons.length*100):0;
+    const mine=sec.lessons.filter(l=>lessonInLevel(l, sec, level));
+    const doneN=mine.filter(l=>done.has(l.id)).length;
+    const pct=mine.length?Math.round(doneN/mine.length*100):0;
+    const phrases=mine.reduce((a,l)=>a+(l.count||0),0);
     const c=document.createElement('button');
     c.className='book'+(sec.placeholder?' wait':''); c.style.setProperty('--sc',sec.color);
     c.innerHTML=
@@ -628,7 +642,7 @@ function viewHome(levelArg){
       '<span class="bmain">'+
         '<span class="btitle">'+esc(sec.name)+'</span>'+
         '<span class="bblurb">'+esc(sec.blurb)+'</span>'+
-        '<span class="bmeta">'+(sec.placeholder?'Waiting for the text':sec.lessons.length+' lessons · '+sec.count.toLocaleString()+' phrases')+'</span>'+
+        '<span class="bmeta">'+(sec.placeholder?'Waiting for the text':mine.length+' lessons · '+phrases.toLocaleString()+' phrases')+'</span>'+
         '<span class="bbar"><i style="width:'+pct+'%"></i></span>'+
       '</span>'+
       '<span class="bgo"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></span>';
@@ -925,8 +939,9 @@ function buildTree(){
       box.style.setProperty('--sc',sec.color);
       const h=document.createElement('button');
       h.className='sechead';
+      const shown=sec.placeholder?[]:sec.lessons.filter(les=>lessonInLevel(les, sec, lv.id));
       h.innerHTML='<span class="dot"></span><span class="nm">'+esc(sec.name)+'</span>'+
-        '<span class="ct">'+(sec.placeholder?'—':sec.lessons.length)+'</span>'+
+        '<span class="ct">'+(sec.placeholder?'—':shown.length)+'</span>'+
         (sec.placeholder?'':chev);
       h.addEventListener('click',e=>{
         if(e.target.closest('.chev')){ box.classList.toggle('open'); return; }
@@ -935,7 +950,7 @@ function buildTree(){
       box.appendChild(h);
       if(!sec.placeholder){
         const ul=document.createElement('div'); ul.className='lessons';
-        sec.lessons.forEach(les=>{
+        shown.forEach(les=>{
           const b=document.createElement('button');
           b.className='les'; b.dataset.les=les.id;
           b.innerHTML='<span class="lb">'+esc(les.label)+'</span>'+esc(les.name)+(done.has(les.id)?'<span class="tick">✓</span>':'');
